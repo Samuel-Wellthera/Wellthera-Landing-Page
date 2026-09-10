@@ -2,457 +2,2486 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#0a0f0c" />
-  <title>Wellthera Integrated Health — Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f9f8f5" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <script>document.documentElement.classList.add('js');</script>
+  <title>Wellthera Integrated Health — Barrie, ON</title>
+  <meta name="description" content="Premium integrated healthcare in Barrie, serving Innisfil and Simcoe County. Registered Massage Therapy, Manual Lymphatic Drainage, acupuncture, psychotherapy and nurse-led services." />
+
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet"
   />
+
   <style>
+    /* ============================================================
+       WELLTHERA INTEGRATED HEALTH — Landing Page
+       Design source: Figma (node 68:10). Built as vanilla HTML/CSS.
+       Fonts: Instrument Serif (display) + Instrument Sans (UI/body,
+       used as a web substitute for the design's "Raveo").
+       ============================================================ */
+
     :root {
-      --gold: #c5a059;
-      --gold-soft: #b89753;
-      --ink: #0a0f0c;
-      --paper: #f6f1e6;
+      /* Cream / paper family */
+      --cream:      #f9f8f5;  /* header, pills, buttons */
+      --cream-2:    #f0ede6;  /* testimonials section bg */
+      --cream-3:    #f2efe9;  /* card caption bars */
+      --cream-4:    #f0ede5;  /* partner logo boxes */
+      --stone:      #e7e3da;  /* social icon boxes */
+
+      /* Ink / brand darks */
+      --ink:        #332e1e;  /* primary warm text */
+      --ink-strong: #100e0a;
+      --ink-90:  rgba(51,46,30,0.9);
+      --ink-80:  rgba(51,46,30,0.8);
+      --ink-60:  rgba(51,46,30,0.6);
+      --ink-20:  rgba(51,46,30,0.2);
+
+      --olive:      #686e4a;  /* solid green button */
+      --gold:       #e6b000;  /* rating star */
+      --nav-mute:   #cdc8bb;
+
+      --hairline:   rgba(51,46,30,0.14);
+
+      --maxw: 1512px;
+      --gutter: 20px;
+
+      --r-sm: 4px;
+      --r-md: 8px;
+      --r-pill: 100px;
+
+      --serif: 'Instrument Serif', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --sans:  'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      /* Fluid display size used for the 80px section titles */
+      --display: clamp(38px, 5.4vw, 80px);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html,
+    html { scroll-behavior: smooth; }
+
     body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      background: var(--ink);
-      color: var(--paper);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 18px;
+      line-height: 1.4;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
-    .stage {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
 
-    .bg-video {
-      position: absolute;
-      inset: 0;
+    /* ---------- Preloader ---------- */
+    #preloader { display: none; }
+    html.js #preloader {
+      display: grid; place-items: center;
+      position: fixed; inset: 0; z-index: 1000;
+      background: #14160e;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    #preloader .pl-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    #preloader .pl-logo {
+      width: 84px; height: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0; transform: translateY(8px) scale(0.94);
+      animation: plLogoIn 1.4s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    #preloader .pl-bar {
+      width: 132px; height: 1px;
+      background: rgba(255,255,255,0.14);
+      overflow: hidden; position: relative;
+      opacity: 0; animation: plBarIn .8s ease .5s forwards;
+    }
+    #preloader .pl-bar span {
+      position: absolute; inset: 0; width: 38%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      transform: translateX(-140%);
+      animation: plShimmer 1.5s ease-in-out infinite;
+    }
+    @keyframes plLogoIn { to { opacity: 1; transform: none; } }
+    @keyframes plBarIn { to { opacity: 1; } }
+    @keyframes plShimmer { 0% { transform: translateX(-140%); } 100% { transform: translateX(360%); } }
+
+    .wrap {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      transform: scale(1.02);
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      pointer-events: none;
-      will-change: opacity;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
     }
 
-    .bg-video.is-active {
-      opacity: 1;
-    }
-
-    .stage.is-ready .bg-video.is-active {
-      opacity: 1;
-    }
-
-    .video-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background:
-        radial-gradient(
-          ellipse at 50% 40%,
-          rgba(15, 20, 18, 0.35) 0%,
-          rgba(10, 15, 12, 0.65) 55%,
-          rgba(0, 0, 0, 0.85) 100%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.55) 0%,
-          rgba(15, 20, 18, 0.35) 45%,
-          rgba(0, 0, 0, 0.75) 100%
-        );
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-    }
-
-    .grain {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0.05;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.77 0 0 0 0 0.63 0 0 0 0 0.35 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    }
-
-    .content {
-      position: relative;
-      z-index: 3;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: max(env(safe-area-inset-top), 24px) 28px
-        max(env(safe-area-inset-bottom), 40px);
-    }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      flex: 0 0 auto;
-      opacity: 0;
-      transform: translateY(-8px);
-      animation: fadeDown 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    }
-
-    .brand img {
-      width: min(58vw, 300px);
-      height: auto;
-      max-height: 30vh;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 40px rgba(197, 160, 89, 0.28));
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      max-width: 420px;
-      gap: 22px;
-      flex: 1 1 auto;
-      padding: 0 12px;
-    }
-
-    .tagline {
-      font-family: 'Cormorant Garamond', serif;
+    /* Shared display heading */
+    .display {
+      font-family: var(--serif);
       font-weight: 400;
-      font-style: italic;
-      font-size: clamp(18px, 5.2vw, 23px);
-      line-height: 1.45;
-      letter-spacing: 0.005em;
-      color: rgba(246, 241, 230, 0.94);
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
-      max-width: 26ch;
-      text-wrap: balance;
-      opacity: 0;
-      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.95s forwards;
+      font-size: var(--display);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
     }
+    .display em { font-style: italic; }
 
-    .divider {
-      width: 36px;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--gold),
-        transparent
-      );
-      opacity: 0;
-      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards;
-    }
-
-    .headline {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(30px, 8.4vw, 40px);
-      line-height: 1.1;
-      letter-spacing: 0.28em;
+    .eyebrow-pill,
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream);
+      color: var(--ink-strong);
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 1;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
-      color: var(--gold);
-      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
-      padding-left: 0.28em;
-      opacity: 0;
-      animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+      padding: 6px 9px;
+      border-radius: var(--r-sm);
+      white-space: nowrap;
     }
+    .eyebrow-pill { border-radius: var(--r-pill); }
 
-    .cta {
+    /* ---------- Buttons ---------- */
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 14px 28px;
-      min-width: 200px;
-      margin-top: 6px;
-      background: rgba(10, 15, 12, 0.25);
-      border: 1px solid rgba(197, 160, 89, 0.85);
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 2px;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.16;
+      border-radius: var(--r-md);
+      padding: 12px 18px;
       cursor: pointer;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      box-shadow:
-        0 0 22px rgba(197, 160, 89, 0.22),
-        inset 0 0 0 rgba(197, 160, 89, 0);
-      transition:
-        background 0.5s ease,
-        box-shadow 0.5s ease,
-        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.5s ease;
-      opacity: 0;
-      animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+      border: 1px solid transparent;
+      transition: transform .35s cubic-bezier(.16,1,.3,1),
+                  background .3s ease, color .3s ease,
+                  border-color .3s ease, box-shadow .3s ease;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(16,14,10,0.2);
+    }
+    .btn--outline:hover { border-color: var(--ink); background: rgba(51,46,30,0.04); }
+
+    .btn--olive { background: var(--olive); color: #fff; }
+    .btn--olive:hover { background: #5a613f; }
+
+    .btn--light { background: #fff; color: #1d1d1d; font-size: 16px; padding: 16px 24px; }
+    .btn--light:hover { box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+
+    /* Glass buttons — frosted, with a soft top-sheen */
+    .btn--glass,
+    .btn--glass-strong {
+      color: #fff;
+      font-size: 16px;
+      border: 1px solid rgba(255,255,255,0.28);
+      -webkit-backdrop-filter: blur(12px) saturate(1.3);
+      backdrop-filter: blur(12px) saturate(1.3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 6px 20px rgba(0,0,0,0.14);
+    }
+    .btn--glass { background: rgba(255,255,255,0.14); padding: 16px 24px 16px 16px; }
+    .btn--glass-strong {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.45);
+      padding: 16px 24px;
+    }
+    .btn--glass:hover {
+      background: rgba(255,255,255,0.26);
+      border-color: rgba(255,255,255,0.55);
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 16px 38px rgba(0,0,0,0.30);
+    }
+    .btn--glass-strong:hover {
+      background: rgba(255,255,255,0.36);
+      border-color: rgba(255,255,255,0.7);
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.30), 0 16px 40px rgba(0,0,0,0.32);
+    }
+    .btn--glass svg { width: 17px; height: 17px; }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: transparent;
+      transition: background .45s ease, backdrop-filter .45s ease, box-shadow .45s ease;
+    }
+    .site-header.is-scrolled {
+      background: rgba(249,248,245,0.82);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 var(--hairline);
+    }
+    .site-header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    .brand-mark img {
+      width: 40px; height: auto;
+      filter: brightness(0) invert(1);
+      transition: filter .45s ease;
+    }
+    .site-header.is-scrolled .brand-mark img { filter: none; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav__menu {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+    .nav__menu a {
+      position: relative;
+      color: rgba(255,255,255,0.92);
+      padding: 2px 0;
+      transition: color .3s ease;
+    }
+    .nav__menu a.is-muted { color: rgba(255,255,255,0.6); }
+    .nav__menu a::after {
+      content: ""; position: absolute; left: 0; right: 100%; bottom: -2px;
+      height: 1px; background: currentColor; opacity: .85;
+      transition: right .4s cubic-bezier(.16,1,.3,1);
+    }
+    .nav__menu a:hover { color: #fff; }
+    .nav__menu a:hover::after { right: 0; }
+    .site-header.is-scrolled .nav__menu a { color: var(--ink); }
+    .site-header.is-scrolled .nav__menu a.is-muted { color: var(--ink-60); }
+    .site-header.is-scrolled .nav__menu a:hover { color: var(--olive); }
+
+    .lang {
+      display: inline-flex;
+      gap: 0;
+    }
+    .lang button {
+      width: 21px; height: 21px;
+      border: 0.5px solid rgba(255,255,255,0.7);
+      background: transparent;
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: background .3s ease, color .3s ease, border-color .3s ease;
+    }
+    .lang button + button { margin-left: -1px; }
+    .lang button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+    .site-header.is-scrolled .lang button { border-color: var(--ink); color: var(--ink); }
+    .site-header.is-scrolled .lang button[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
+
+    .site-header .btn--outline {
+      border-color: rgba(255,255,255,0.4); color: #fff;
+      background: rgba(255,255,255,0.10);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .site-header .btn--outline:hover {
+      border-color: #fff; background: rgba(255,255,255,0.22);
+      transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+    }
+    .site-header.is-scrolled .btn--outline {
+      border-color: rgba(16,14,10,0.16); color: var(--ink);
+      background: rgba(255,255,255,0.45);
+    }
+    .site-header.is-scrolled .btn--outline:hover {
+      border-color: var(--ink); background: rgba(255,255,255,0.75);
+      transform: translateY(-2px); box-shadow: 0 10px 24px rgba(51,46,30,0.12);
     }
 
-    .cta::after {
-      content: '';
-      width: 14px;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.9);
-      transition: width 0.45s ease, background 0.45s ease;
-    }
+    /* Legibility of light nav elements over bright areas of the hero */
+    .site-header:not(.is-scrolled) .nav__menu a,
+    .site-header:not(.is-scrolled) .lang button { text-shadow: 0 1px 8px rgba(0,0,0,0.28); }
+    .site-header:not(.is-scrolled) .brand-mark img { filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgba(0,0,0,0.35)); }
+    .site-header:not(.is-scrolled) .btn--outline { text-shadow: 0 1px 8px rgba(0,0,0,0.28); }
 
-    .cta:hover,
-    .cta:focus-visible {
-      background: rgba(197, 160, 89, 0.14);
-      border-color: var(--gold);
-      box-shadow:
-        0 0 32px rgba(197, 160, 89, 0.45),
-        inset 0 0 12px rgba(197, 160, 89, 0.08);
-      transform: translateY(-1px);
-      outline: none;
-    }
+    .nav-toggle { display: none; }
+    .mobile-menu { display: none; }
 
-    .cta:hover::after,
-    .cta:focus-visible::after {
-      width: 22px;
-      background: var(--gold);
-    }
-
-    .foot {
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      flex: 0 0 auto;
+      justify-content: space-between;
+      padding: 116px clamp(20px, 4vw, 56px) clamp(36px, 5vw, 60px);
+      color: #fff;
+    }
+    .hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero__bg img,
+    .hero__bg video { width: 100%; height: 100%; object-fit: cover; }
+    .hero__bg video { transform: scale(1.03); filter: brightness(1.12) saturate(1.05); }
+    .hero__bg::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(0,0,0,0.34) 0%,
+          rgba(0,0,0,0.05) 24%,
+          rgba(0,0,0,0.09) 56%,
+          rgba(0,0,0,0.48) 100%),
+        linear-gradient(90deg,
+          rgba(0,0,0,0.22) 0%,
+          rgba(0,0,0,0.04) 32%,
+          rgba(0,0,0,0) 58%);
+    }
+    .hero > *:not(.hero__bg) { position: relative; z-index: 1; }
+
+    .hero__eyebrows {
+      display: flex; gap: 14px; flex-wrap: wrap;
+    }
+    /* Glassy pills in the hero (light text, subtle) */
+    .hero__eyebrows .eyebrow-pill,
+    .hero__eyebrows .tag {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.95);
+      border: 1px solid rgba(255,255,255,0.28);
+      -webkit-backdrop-filter: blur(10px) saturate(1.2);
+      backdrop-filter: blur(10px) saturate(1.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+    }
+
+    .hero__lower { display: flex; flex-direction: column; gap: clamp(56px, 12vh, 150px); }
+    .hero__block { display: flex; flex-direction: column; gap: 24px; }
+
+    .hero__descrow {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .hero__desc {
+      max-width: 500px;
+      font-size: 18px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.95);
+    }
+    .hero__actions { display: flex; gap: 13px; align-items: center; }
+
+    .hero__line {
+      height: 1px;
+      background: rgba(255,255,255,0.5);
+      width: min(500px, 100%);
+      transform-origin: left center;
+    }
+    /* Draw the line slowly from left to right when the copy reveals */
+    html.js .hero__line {
+      transform: scaleX(0);
+      transition: transform 1.7s cubic-bezier(.16,1,.3,1);
+    }
+    .hero.copy-in .hero__line { transform: scaleX(1); transition-delay: .7s; }
+
+    .hero__headline {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(44px, 6.6vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      color: #fff;
+      max-width: 1054px;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.28);
+    }
+
+    /* Hero copy — revealed luxuriously ~2s into the video (see script) */
+    .hero__desc { text-shadow: 0 1px 16px rgba(0,0,0,0.35); }
+    .hero__eyebrows,
+    .hero__block,
+    .hero__headline {
+      transition: opacity 1.3s cubic-bezier(.16,1,.3,1), transform 1.3s cubic-bezier(.16,1,.3,1);
+    }
+    html.js .hero__eyebrows,
+    html.js .hero__block,
+    html.js .hero__headline { opacity: 0; transform: translateY(24px); }
+    .hero.copy-in .hero__eyebrows { transition-delay: 0s; }
+    .hero.copy-in .hero__headline { transition-delay: .18s; }
+    .hero.copy-in .hero__block    { transition-delay: .42s; }
+    .hero.copy-in .hero__eyebrows,
+    .hero.copy-in .hero__block,
+    .hero.copy-in .hero__headline { opacity: 1; transform: none; }
+
+    /* ============================================================
+       FEATURE SECTION
+       ============================================================ */
+    .section { padding: clamp(64px, 8vw, 124px) 0; }
+
+    .feature__title {
+      text-align: center;
+      color: var(--ink);
+      max-width: 1182px;
+      margin: 0 auto clamp(48px, 8vw, 96px);
+    }
+
+    /* ---------- Clinic depth-blur carousel ---------- */
+    .dcar { display: flex; flex-direction: column; align-items: center; gap: clamp(32px, 4.5vw, 56px); }
+    .dcar__copy { max-width: 760px; text-align: center; display: flex; flex-direction: column; gap: 16px; }
+    .feature__text,
+    .sc-p { color: var(--ink); font-size: clamp(16px, 1.25vw, 20px); line-height: 1.55; }
+
+    .dcar__stage { position: relative; width: 100%; display: flex; align-items: center; }
+    .dcar__track {
+      position: relative; width: 100%;
+      height: clamp(300px, 42vw, 560px);
+      overflow: hidden;
+    }
+    .dcar__slide {
+      position: absolute; left: 50%; top: 50%;
+      width: min(52%, 620px);
+      aspect-ratio: 3 / 2;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      transform: translate(-50%, -50%);
+      transition: transform .85s cubic-bezier(.4,0,.2,1),
+                  filter .85s cubic-bezier(.4,0,.2,1),
+                  opacity .7s ease;
+      will-change: transform, filter, opacity;
+      box-shadow: 0 30px 70px rgba(51,46,30,0.20);
+      cursor: pointer;
+      backface-visibility: hidden;
+    }
+    .dcar__slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .dcar__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 40;
+      width: 52px; height: 52px; border-radius: var(--r-pill);
+      border: 1px solid var(--ink-20);
+      background: rgba(249,248,245,0.7);
+      -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2);
+      cursor: pointer; display: grid; place-items: center;
+      transition: transform .35s cubic-bezier(.16,1,.3,1), background .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .dcar__arrow.is-prev { left: clamp(6px, 3vw, 40px); }
+    .dcar__arrow.is-next { right: clamp(6px, 3vw, 40px); }
+    .dcar__arrow:hover { background: #fff; border-color: var(--ink); box-shadow: 0 10px 26px rgba(51,46,30,0.16); }
+    .dcar__arrow.is-prev:hover { transform: translateY(-50%) translateX(-3px); }
+    .dcar__arrow.is-next:hover { transform: translateY(-50%) translateX(3px); }
+    .dcar__arrow img { width: 24px; height: 24px; }
+    .dcar__arrow.is-prev img { transform: scaleX(-1); }
+
+    .dcar__foot { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+    .dcar__dots { display: flex; gap: 7px; align-items: center; }
+    .dcar__dots button {
+      width: 7px; height: 7px; border-radius: var(--r-pill);
+      border: none; background: var(--ink-20); cursor: pointer; padding: 0;
+      transition: width .45s cubic-bezier(.16,1,.3,1), background .45s ease;
+    }
+    .dcar__dots button.is-active { width: 26px; background: var(--olive); }
+
+    /* Reveal cascade (first time in view): copy lines, then the carousel, then controls */
+    html.js .dcar__copy > * {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    html.js .dcar__cta {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    html.js .dcar__stage {
+      opacity: 0; transform: translateY(34px) scale(.985);
+      transition: opacity 1.3s cubic-bezier(.16,1,.3,1), transform 1.3s cubic-bezier(.16,1,.3,1);
+    }
+    html.js .dcar__foot {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    .dcar.is-in .dcar__copy > *,
+    .dcar.is-in .dcar__cta,
+    .dcar.is-in .dcar__stage,
+    .dcar.is-in .dcar__foot { opacity: 1; transform: none; }
+    .dcar.is-in .dcar__copy > *:nth-child(1) { transition-delay: .15s; }
+    .dcar.is-in .dcar__copy > *:nth-child(2) { transition-delay: .42s; }
+    .dcar.is-in .dcar__cta { transition-delay: .60s; }
+    .dcar.is-in .dcar__stage { transition-delay: .84s; }
+    .dcar.is-in .dcar__foot  { transition-delay: 1.16s; }
+
+    /* ============================================================
+       RMT BAND
+       ============================================================ */
+    .band {
+      position: relative;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      color: #fff;
+      padding: clamp(48px, 6vw, 87px) clamp(24px, 8vw, 122px) clamp(56px, 7vw, 99px);
+    }
+    .band__bg { position: absolute; inset: 0; z-index: 0; }
+    .band__bg img { width: 100%; height: 100%; object-fit: cover; }
+    .band__bg::after { content: ""; position: absolute; inset: 0; background: rgba(22,24,15,0.5); }
+    .band > *:not(.band__bg) { position: relative; z-index: 1; }
+
+    .band__row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .band__left { max-width: 571px; display: flex; flex-direction: column; gap: clamp(60px, 12vw, 200px); }
+    .band__intro { display: flex; flex-direction: column; gap: 24px; }
+    .band__title {
+      font-family: var(--serif); font-weight: 400;
+      font-size: clamp(36px, 4.6vw, 62px); line-height: 1.0; letter-spacing: -0.01em;
+    }
+    .band__desc { max-width: 498px; font-size: 18px; line-height: 1.4; font-weight: 500; }
+
+    .band__list { display: flex; flex-direction: column; gap: 24px; max-width: 498px; }
+    .band__item {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .band__item svg { width: 24px; height: 24px; flex: none; }
+
+    .band__right {
+      display: flex; flex-direction: column; align-items: flex-end;
+      justify-content: space-between; gap: 40px;
+      align-self: stretch;
+    }
+    .band__scroll { display: flex; flex-direction: column; gap: 6px; }
+    .band__scroll span { width: 4px; border-radius: var(--r-pill); background: rgba(255,255,255,0.2); height: 21px; }
+    .band__scroll span.is-active { height: 74px; background: #fff; }
+
+    /* ============================================================
+       SERVICES — scroll-jacked, pinned steps
+       ============================================================ */
+    .svc { position: relative; }
+    .svc__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+    .svc__media { position: absolute; inset: 0; z-index: 0; }
+    .svc__bg { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: opacity 1.1s cubic-bezier(.4,0,.2,1); }
+    .svc__bg.is-active { opacity: 1; }
+    .svc__bg img, .svc__bg video { width: 100%; height: 100%; object-fit: cover; }
+    .svc__scrim { position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(100deg, rgba(12,13,9,.92) 0%, rgba(12,13,9,.72) 38%, rgba(12,13,9,.46) 66%, rgba(12,13,9,.58) 100%),
+        linear-gradient(0deg, rgba(12,13,9,.4) 0%, rgba(12,13,9,.12) 40%, rgba(12,13,9,.18) 100%); }
+    .svc__inner { position: relative; z-index: 2; height: 100%; display: flex; align-items: center; }
+    .svc__grid { display: flex; align-items: stretch; justify-content: space-between; gap: 40px; width: 100%; height: 100%; padding: 120px 0; }
+    .svc__panels { position: relative; flex: 1 1 auto; max-width: 640px; }
+    .svc__panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 22px; color: #fff;
+      opacity: 0; transform: translateY(26px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+      pointer-events: none; }
+    .svc__panel.is-active { opacity: 1; transform: none; pointer-events: auto; }
+    .svc__title { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 4vw, 58px); line-height: 1.02; letter-spacing: -.01em; }
+    .svc__desc { font-size: 18px; line-height: 1.5; max-width: 480px; color: rgba(255,255,255,.9); }
+    .svc__subs { display: flex; flex-wrap: wrap; gap: 9px; max-width: 560px; margin-top: 4px; }
+    .svc__sub { padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.09); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      font-size: 14px; font-weight: 500; color: #fff; white-space: nowrap;
+      transition: background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.16,1,.3,1); }
+    .svc__sub:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.5); transform: translateY(-1px); }
+    .svc__side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 24px; align-self: stretch; flex: 0 0 auto; }
+    .svc__counter { font-family: var(--serif); color: #fff; font-size: 22px; letter-spacing: .05em; }
+    .svc__counter b { font-size: 40px; font-weight: 400; }
+    .svc__counter span { color: rgba(255,255,255,.55); }
+    .svc__progress { display: flex; flex-direction: column; gap: 8px; flex: 1 1 auto; justify-content: center; }
+    .svc__seg { width: 4px; height: 46px; border-radius: var(--r-pill); background: rgba(255,255,255,.24); overflow: hidden; position: relative; }
+    .svc__seg i { position: absolute; inset: 0; background: #fff; transform-origin: top; transform: scaleY(0); transition: transform .18s linear; }
+
+    /* ============================================================
+       TEAM / MAIN CONTENT
+       ============================================================ */
+    .team__title { color: var(--ink); max-width: 756px; margin-bottom: clamp(56px, 10vw, 151px); }
+
+    /* Team — founders row + team carousel; cards have hover bio, glassy tags, 3D shadow */
+    .team__block { display: flex; flex-direction: column; gap: 50px; }
+    .team__row { display: flex; align-items: flex-start; gap: 40px; }
+    .team__label { flex: 0 0 180px; max-width: 180px; font-weight: 500; font-size: 24px; color: var(--ink); padding-top: 6px; }
+    .team__hr { border: none; border-top: 1px solid var(--hairline); width: 100%; }
+    .team__founders { display: flex; gap: 19px; flex: 1 1 auto; min-width: 0; flex-wrap: wrap; }
+    .team__founders .pcard { flex: none; width: clamp(240px, 26vw, 340px); }
+    .team__carousel { position: relative; flex: 1 1 auto; min-width: 0; }
+    .team__track { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 14px 2px 26px; }
+    .team__track::-webkit-scrollbar { display: none; }
+    .team__track .pcard { flex: none; width: clamp(230px, 24vw, 300px); scroll-snap-align: start; }
+    .team__next {
+      position: absolute; top: 50%; right: 12px; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: var(--r-pill);
+      background: var(--cream); border: none; cursor: pointer; display: grid; place-items: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.14); transition: transform .3s ease, background .3s ease; z-index: 6;
+    }
+    .team__next:hover { transform: translateY(-50%) scale(1.06); background: #fff; }
+    .team__next img { width: 24px; height: 24px; }
+    .pcard {
+      position: relative; aspect-ratio: 3 / 4; border-radius: 6px; overflow: hidden; cursor: pointer;
+      box-shadow: 0 18px 40px rgba(51,46,30,.16), 0 4px 12px rgba(51,46,30,.10);
+      transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
+    }
+    .pcard:hover, .pcard.is-hover { transform: translateY(-6px); box-shadow: 0 36px 74px rgba(51,46,30,.30), 0 10px 24px rgba(51,46,30,.14); }
+    .pcard__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.2s cubic-bezier(.16,1,.3,1), filter .6s ease; }
+    .pcard:hover .pcard__photo, .pcard.is-hover .pcard__photo { transform: scale(1.05); filter: brightness(.88); }
+    .pcard__tag {
+      position: absolute; top: 12px; left: 12px; z-index: 5;
+      display: inline-flex; align-items: center; padding: 7px 11px; border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #fff;
+      background: rgba(18,19,13,.34); border: 1px solid rgba(255,255,255,.28);
+      -webkit-backdrop-filter: blur(9px) saturate(1.2); backdrop-filter: blur(9px) saturate(1.2);
+    }
+    .pcard__name {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 14px; color: #fff;
+      font-weight: 500; font-size: 18px; letter-spacing: -0.01em;
+      background: linear-gradient(0deg, rgba(0,0,0,.6), transparent); transition: opacity .4s ease;
+    }
+    .pcard:hover .pcard__name, .pcard.is-hover .pcard__name { opacity: 0; }
+    .pcard__bio {
+      position: absolute; inset: 0; z-index: 4; padding: clamp(16px, 1.8vw, 22px);
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; color: #fff;
+      background: linear-gradient(180deg, rgba(18,19,13,.15) 0%, rgba(18,19,13,.6) 42%, rgba(18,19,13,.85) 100%);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+      opacity: 0; transition: opacity .5s ease; pointer-events: none;
+    }
+    .pcard:hover .pcard__bio, .pcard.is-hover .pcard__bio { opacity: 1; pointer-events: auto; }
+    .pcard__bio > * { opacity: 0; transform: translateY(14px); transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1); }
+    .pcard:hover .pcard__bio > *, .pcard.is-hover .pcard__bio > * { opacity: 1; transform: none; }
+    .pcard:hover .pcard__bio > *:nth-child(1), .pcard.is-hover .pcard__bio > *:nth-child(1) { transition-delay: .10s; }
+    .pcard:hover .pcard__bio > *:nth-child(2), .pcard.is-hover .pcard__bio > *:nth-child(2) { transition-delay: .20s; }
+    .pcard:hover .pcard__bio > *:nth-child(3), .pcard.is-hover .pcard__bio > *:nth-child(3) { transition-delay: .30s; }
+    .pcard:hover .pcard__bio > *:nth-child(4), .pcard.is-hover .pcard__bio > *:nth-child(4) { transition-delay: .40s; }
+    .pcard__bn { font-family: var(--serif); font-size: 26px; line-height: 1.02; }
+    .pcard__br { font-size: 11px; text-transform: uppercase; letter-spacing: .09em; color: rgba(255,255,255,.72); margin-top: 5px; }
+    .pcard__bt { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.92); }
+    .pcard__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pcard__chips span { font-size: 11px; padding: 5px 9px; border-radius: var(--r-pill); border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.13); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .pcard__lang { font-size: 12px; color: rgba(255,255,255,.72); letter-spacing: .03em; }
+
+    /* ============================================================
+       INSURANCE MARQUEE + COMPLIANCE
+       ============================================================ */
+    .billing__title { font-weight: 500; font-size: 18px; color: var(--ink); text-align: center; margin-bottom: 44px; }
+    .marquee { position: relative; width: 100%; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+    .marquee__track { display: flex; align-items: center; gap: 72px; width: max-content; animation: marquee 46s linear infinite; }
+    .marquee:hover .marquee__track { animation-play-state: paused; }
+    .marquee__track img { height: 40px; width: auto; object-fit: contain; opacity: .82; transition: opacity .3s ease, transform .3s ease; flex: none; }
+    .marquee__track img:hover { opacity: 1; transform: scale(1.06); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .compliance { margin-top: clamp(64px, 8vw, 100px); display: flex; flex-direction: column; align-items: center; gap: 32px; text-align: center; }
+    .compliance::before { content: ""; width: 40px; height: 1px; background: var(--hairline); }
+    .compliance__label { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); }
+    .compliance__logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(32px, 5vw, 72px); }
+    .compliance__logos img { height: 60px; width: auto; object-fit: contain; opacity: .85; }
+    .compliance__note { max-width: 680px; font-size: 15px; line-height: 1.6; color: var(--ink-60); }
+
+    /* ============================================================
+       TESTIMONIALS
+       ============================================================ */
+    .testimonials { background: var(--cream-2); }
+    .testimonials__inner { padding-top: 40px; padding-bottom: 80px; }
+    .testimonials__header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 40px; margin-bottom: clamp(48px, 10vw, 140px); flex-wrap: wrap;
+    }
+    .rating { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .rating .star { color: var(--gold); letter-spacing: 1px; }
+    /* glassy rating tags */
+    .rating .eyebrow-pill, .rating .tag {
+      background: rgba(255,255,255,0.5);
+      color: var(--ink-strong);
+      border: 1px solid rgba(51,46,30,0.12);
+      -webkit-backdrop-filter: blur(8px) saturate(1.1); backdrop-filter: blur(8px) saturate(1.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .testimonials__title { text-align: right; max-width: 598px; color: var(--ink); }
+
+    .testimonials__hr { border: none; border-top: 1px solid var(--hairline); margin-bottom: 40px; }
+
+    .testimonial { display: flex; align-items: stretch; justify-content: space-between; gap: 60px; }
+    .testimonial__box { max-width: 658px; flex: 1 1 480px; display: flex; flex-direction: column; gap: 28px; }
+    .tstack { position: relative; min-height: 320px; }
+    .tslide {
+      position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    .tslide.is-active { opacity: 1; transform: none; pointer-events: auto; }
+    .tstars { color: var(--gold); font-size: 15px; letter-spacing: 3px; }
+    .testimonial__author { font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--ink); }
+    .tmeta { font-size: 13px; color: var(--ink-60); margin-top: -6px; }
+    .testimonial__quote { font-size: 17px; line-height: 1.55; color: var(--ink-90); max-width: 500px; }
+
+    .testimonial__nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dots button { height: 4px; width: 10px; border-radius: var(--r-pill); background: var(--nav-mute); border: none; padding: 0; cursor: pointer; transition: width .45s cubic-bezier(.16,1,.3,1), background .45s ease; }
+    .dots button.is-active { width: 40px; background: var(--ink); }
+    .arrows { display: flex; gap: 7px; }
+    .arrow-btn {
+      width: 48px; height: 48px; border-radius: var(--r-pill);
+      background: var(--cream); border: none; cursor: pointer;
+      display: grid; place-items: center; transition: transform .3s ease, background .3s ease;
+    }
+    .arrow-btn.is-prev img { transform: scaleX(-1); }
+    .arrow-btn:hover { transform: scale(1.06); background: #fff; }
+    .arrow-btn img { width: 24px; height: 24px; }
+    .tmore {
+      align-self: flex-start; font-size: 14px; font-weight: 500; color: var(--olive);
+      border-bottom: 1px solid rgba(104,110,74,.35); padding-bottom: 2px; transition: border-color .3s ease;
+    }
+    .tmore:hover { border-color: var(--olive); }
+
+    .testimonial__img {
+      position: relative; flex: 0 0 clamp(300px, 44%, 560px);
+      aspect-ratio: 5 / 6; overflow: hidden; align-self: stretch;
+      border-radius: clamp(90px, 40%, 220px) clamp(90px, 40%, 220px) var(--r-sm) var(--r-sm);
+    }
+    .timg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; }
+    .timg.is-active { opacity: 1; }
+
+    /* ============================================================
+       FAQ
+       ============================================================ */
+    .faq__grid {
+      display: grid; grid-template-columns: minmax(0, 494px) minmax(0, 728px);
+      justify-content: space-between; gap: 40px; align-items: start;
+    }
+    .faq__title { color: var(--ink); }
+    .faq__list { display: flex; flex-direction: column; gap: 24px; padding-top: 14px; }
+    .faq__item { border-bottom: 1px solid var(--ink-20); padding-bottom: 24px; }
+    .faq__q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-family: var(--sans); font-weight: 500; font-size: 20px; color: var(--ink);
+      text-align: left; line-height: 1.16;
+    }
+    .faq__q .icon {
+      width: 24px; height: 24px; flex: none; position: relative; transition: transform .3s ease;
+    }
+    .faq__q .icon::before, .faq__q .icon::after {
+      content: ""; position: absolute; background: var(--ink);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .faq__q .icon::before { width: 14px; height: 1.5px; }
+    .faq__q .icon::after  { width: 1.5px; height: 14px; transition: transform .3s ease; }
+    .faq__item[open] .faq__q .icon::after { transform: translate(-50%, -50%) scaleY(0); }
+    .faq__a {
+      font-size: 18px; line-height: 1.4; color: var(--ink-80);
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .4s ease, opacity .3s ease, margin .3s ease;
+    }
+    .faq__item[open] .faq__a { max-height: 320px; opacity: 1; margin-top: 24px; }
+
+    /* ============================================================
+       CTA BAND
+       ============================================================ */
+    .cta-band {
+      position: relative; border-radius: var(--r-md); overflow: hidden; color: #fff;
+      padding: 32px;
+      min-height: min(80vh, 900px);
+      display: flex; align-items: flex-end;
+    }
+    .cta-band__bg { position: absolute; inset: 0; z-index: 0; background: #fff; }
+    .cta-band__bg img, .cta-band__bg video { width: 100%; height: 100%; object-fit: cover; }
+    .cta-band__row {
+      position: relative; z-index: 1; width: 100%;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap;
+    }
+    .cta-band__text { max-width: 790px; display: flex; flex-direction: column; gap: clamp(48px, 20vw, 40px); }
+    .cta-band__title { color: var(--ink); font-size: clamp(26px, 3.1vw, 44px); line-height: 1.1; max-width: 560px; }
+    .cta-band__sub { max-width: 405px; font-size: 18px; line-height: 1.4; font-weight: 500; color: var(--ink-80); }
+    /* copy fades in dark after the video finishes on white */
+    html.js .cta-band__row { opacity: 0; transform: translateY(18px); transition: opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1); }
+    .cta-band.copy-in .cta-band__row { opacity: 1; transform: none; }
+
+    .cta-pill {
+      display: inline-flex; align-items: center; gap: 24px;
+      background: var(--olive);
+      border-radius: var(--r-pill);
+      padding: 4px 44px 4px 4px;
+      box-shadow: 0 14px 34px rgba(104,110,74,0.28);
+      transition: background .3s ease, transform .3s ease, box-shadow .3s ease;
+    }
+    .cta-pill:hover { background: #5a613f; transform: translateY(-2px); box-shadow: 0 18px 40px rgba(104,110,74,0.34); }
+    .cta-pill img { width: 114px; height: 114px; border-radius: var(--r-pill); object-fit: cover; }
+    .cta-pill span { font-weight: 500; font-size: 24px; color: var(--cream); }
+
+    /* ---------- Visit / map ---------- */
+    .visit-map__grid { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+    .visit-map__info { display: flex; flex-direction: column; gap: 22px; }
+    .visit-map__title { color: var(--ink); font-size: clamp(30px, 4vw, 52px); }
+    .visit-map__addr p { font-size: 18px; line-height: 1.55; color: var(--ink); }
+    .visit-map__addr strong { font-weight: 500; }
+    .visit-map__hours { font-size: 15px; line-height: 1.7; color: var(--ink-60); }
+    .visit-map__info .btn { align-self: flex-start; }
+    .visit-map__frame {
+      position: relative; border-radius: var(--r-sm); overflow: hidden; aspect-ratio: 16 / 11;
+      box-shadow: 0 24px 56px rgba(51,46,30,.16), 0 6px 16px rgba(51,46,30,.08);
+    }
+    .visit-map__frame iframe { width: 100%; height: 100%; border: 0; display: block; filter: grayscale(.35) contrast(1.02); transition: filter .5s ease; }
+    .visit-map__frame:hover iframe { filter: none; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer { position: relative; overflow: hidden; padding: clamp(56px, 8vw, 80px) 0; }
+    .footer__leaf {
+      position: absolute; right: -2%; top: 30%; width: min(50%, 771px);
+      opacity: 0.5; pointer-events: none; z-index: 0;
+    }
+    .footer__inner { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 80px; }
+
+    .footer__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 60px; flex-wrap: wrap; }
+    .footer__addr { display: flex; flex-direction: column; gap: 32px; max-width: 240px; }
+    .footer__addr img { width: 78px; height: auto; }
+    .footer__addr p { font-size: 18px; line-height: 1.4; color: var(--ink); }
+    .footer__addr .addr { font-weight: 500; }
+    .footer__hours b { font-weight: 500; }
+
+    .footer__links {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.015em; color: var(--ink);
+    }
+    .footer__links a { display: block; line-height: 1.4; transition: color .2s ease; }
+    .footer__links a:hover { color: var(--olive); }
+
+    .footer__bottom { display: flex; flex-direction: column; gap: 20px; }
+    .footer__bottom hr { border: none; border-top: 1px solid var(--hairline); }
+    .footer__copyrow { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .footer__copy { font-size: 16px; color: var(--ink); opacity: 0.6; }
+    .socials { display: flex; gap: 16px; }
+    .socials a {
+      width: 64px; height: 64px; border-radius: var(--r-sm); background: var(--stone);
+      display: grid; place-items: center; transition: transform .3s ease, background .3s ease;
+    }
+    .socials a:hover { transform: translateY(-2px); background: #ddd8cc; }
+    .socials svg { width: 24px; height: 24px; }
+
+    /* ============================================================
+       SCROLL REVEAL + HOVER POLISH
+       ============================================================ */
+    [data-reveal] {
       opacity: 0;
-      animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.75s forwards;
+      transform: translateY(32px);
+      transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+      will-change: opacity, transform;
+    }
+    [data-reveal].is-in { opacity: 1; transform: none; }
+
+    /* Unified premium button feel */
+    .btn { box-shadow: 0 0 0 rgba(0,0,0,0); }
+    .btn--light:hover { box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+    .btn--olive:hover { box-shadow: 0 14px 30px rgba(104,110,74,0.35); }
+    .btn--glass:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+    .btn--glass svg { transition: transform .35s cubic-bezier(.16,1,.3,1); }
+    .btn--glass:hover svg { transform: translateX(2px) scale(1.05); }
+
+    /* Feature "learn more" hairline items + RMT service rows glow on hover */
+    .band__item { transition: border-color .35s ease, transform .35s cubic-bezier(.16,1,.3,1); }
+    .band__item:hover { transform: translateX(4px); }
+    .band__item img { transition: transform .35s cubic-bezier(.16,1,.3,1); }
+    .band__item:hover img { transform: rotate(90deg); }
+
+    .card img { transition: transform 1.2s cubic-bezier(.16,1,.3,1); }
+    .card:hover img { transform: scale(1.05); }
+
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1080px) {
+      .dcar__slide { width: min(60%, 560px); }
+      .faq__grid { grid-template-columns: 1fr; }
+      .testimonial { flex-direction: column-reverse; align-items: stretch; }
+      .testimonial__img { flex-basis: auto; max-width: 100%; }
+      .team__label { flex-basis: 130px; max-width: 130px; }
+      .band__row { flex-direction: column; align-items: stretch; }
+      .band__right { flex-direction: row-reverse; align-items: center; }
+      .band__scroll { flex-direction: row; }
+      .band__scroll span.is-active { height: 4px; width: 74px; }
+      .band__scroll span { height: 4px; }
+      .testimonials__title { text-align: left; }
     }
 
-    .foot-line {
-      width: 1px;
-      height: 26px;
-      background: linear-gradient(
-        180deg,
-        transparent,
-        rgba(197, 160, 89, 0.7)
-      );
+    @media (max-width: 860px) {
+      .footer__links { gap: 32px; }
+      .visit-map__grid { grid-template-columns: 1fr; }
+      .visit-map__frame { aspect-ratio: 16 / 10; }
     }
 
-    .foot-text {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(246, 241, 230, 0.55);
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .nav { display: none; }
+      .nav-toggle {
+        display: grid; place-items: center;
+        width: 44px; height: 44px; border-radius: var(--r-md);
+        border: 1px solid rgba(255,255,255,0.45); background: transparent; cursor: pointer;
+        transition: border-color .45s ease;
+      }
+      .nav-toggle span { width: 18px; height: 1.5px; background: #fff; position: relative; transition: background .45s ease; }
+      .nav-toggle span::before, .nav-toggle span::after {
+        content: ""; position: absolute; left: 0; width: 18px; height: 1.5px; background: #fff; transition: background .45s ease;
+      }
+      .nav-toggle span::before { top: -6px; }
+      .nav-toggle span::after { top: 6px; }
+      .site-header:not(.is-scrolled) .nav-toggle { filter: drop-shadow(0 1px 5px rgba(0,0,0,0.4)); }
+      .site-header.is-scrolled .nav-toggle { border-color: rgba(16,14,10,0.2); filter: none; }
+      .site-header.is-scrolled .nav-toggle span,
+      .site-header.is-scrolled .nav-toggle span::before,
+      .site-header.is-scrolled .nav-toggle span::after { background: var(--ink); }
+
+      .mobile-menu {
+        display: none; flex-direction: column; gap: 4px;
+        padding: 8px 20px 20px;
+        background: rgba(249,248,245,0.98);
+        -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+        border-top: 1px solid var(--hairline);
+      }
+      .mobile-menu.is-open { display: flex; }
+      .mobile-menu a { padding: 12px 0; font-weight: 500; font-size: 18px; border-bottom: 1px solid var(--hairline); }
+      .mobile-menu .btn { margin-top: 12px; align-self: flex-start; }
+
+      .hero { padding: 96px 20px 32px; min-height: 88svh; }
+      .hero__descrow { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .hero__actions { flex-wrap: wrap; }
+      .hero__lower { gap: clamp(40px, 8vh, 90px); }
+
+      .dcar__slide { width: min(82%, 440px); }
+      .dcar__arrow { width: 44px; height: 44px; }
+      .dcar__arrow img { width: 20px; height: 20px; }
+
+      .svc__grid { flex-direction: column; align-items: stretch; justify-content: flex-end; gap: 20px; padding: 96px 0 32px; }
+      .svc__panels { max-width: none; width: 100%; flex: 1 1 auto; }
+      .svc__panel { justify-content: flex-end; gap: 16px; }
+      .svc__title { font-size: clamp(30px, 8vw, 44px); }
+      .svc__side { flex-direction: row; width: 100%; align-items: center; align-self: auto; flex: 0 0 auto; gap: 16px; }
+      .svc__counter b { font-size: 30px; }
+      .svc__progress { flex-direction: row; flex: 1 1 auto; padding: 0 4px; }
+      .svc__seg { width: 100%; height: 4px; max-width: 40px; }
+
+      .team__row { flex-direction: column; gap: 18px; }
+      .team__label { flex-basis: auto; max-width: none; padding-top: 0; }
+      .team__founders { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+      .team__founders .pcard { width: min(74%, 320px); }
+      .team__track .pcard { width: min(74%, 300px); }
+      .cta-band__row { flex-direction: column; align-items: flex-start; }
+      .cta-pill img { width: 84px; height: 84px; }
+      .cta-pill span { font-size: 20px; }
+      .footer__leaf { display: none; }
     }
 
-    @keyframes fadeDown {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* ============================================================
+       MODAL + COOKIE + LEARN-MORE
+       ============================================================ */
+    .pcard__more {
+      align-self: flex-start; margin-top: 2px;
+      background: rgba(255,255,255,0.14); color: #fff;
+      border: 1px solid rgba(255,255,255,0.38); border-radius: var(--r-pill);
+      font-family: var(--sans); font-weight: 500; font-size: 12px; letter-spacing: .02em;
+      padding: 8px 14px; cursor: pointer;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background .3s ease, border-color .3s ease, transform .3s ease;
     }
+    .pcard__more:hover { background: rgba(255,255,255,0.28); border-color: #fff; transform: translateX(2px); }
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .modal[hidden] { display: none; }
+    .modal__backdrop { position: absolute; inset: 0; background: rgba(16,17,11,0.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; transition: opacity .4s ease; }
+    .modal.is-open .modal__backdrop { opacity: 1; }
+    .modal__dialog {
+      position: relative; z-index: 1; background: var(--cream); color: var(--ink);
+      border-radius: 14px; overflow: hidden; width: min(920px, 100%); max-height: 88vh;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      opacity: 0; transform: translateY(18px) scale(.98);
+      transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
+      display: flex; flex-direction: column;
     }
+    .modal.is-open .modal__dialog { opacity: 1; transform: none; }
+    .modal__close {
+      position: absolute; top: 14px; right: 14px; z-index: 3;
+      width: 40px; height: 40px; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.75); border: 1px solid var(--ink-20); color: var(--ink);
+      cursor: pointer; display: grid; place-items: center;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      transition: background .3s ease, transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .modal__close:hover { background: #fff; transform: rotate(90deg); }
+    .modal__close svg { width: 20px; height: 20px; }
+    .modal__content { overflow: auto; -webkit-overflow-scrolling: touch; }
 
-    @media (min-width: 768px) {
-      .brand img {
-        width: min(30vw, 320px);
-        max-height: 32vh;
-      }
-      .hero {
-        gap: 30px;
-        max-width: 500px;
-      }
-      .tagline {
-        font-size: 24px;
-      }
-      .headline {
-        font-size: 44px;
-      }
+    .video-m { background: #000; }
+    .video-m video { display: block; width: 100%; max-height: 88vh; }
+
+    .bio-m { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); }
+    .bio-m__photo { position: relative; }
+    .bio-m__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .bio-m__body { padding: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; gap: 14px; }
+    .bio-m__tag { position: static; align-self: flex-start; background: var(--olive); color: var(--cream); border: none; }
+    .bio-m__name { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4vw, 40px); line-height: 1.05; color: var(--ink); }
+    .bio-m__role { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-60); margin-top: -6px; }
+    .bio-m__chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0; }
+    .bio-m__chips span { font-size: 12px; padding: 6px 11px; border-radius: var(--r-pill); border: 1px solid var(--ink-20); background: rgba(51,46,30,0.04); color: var(--ink); }
+    .bio-m__text { display: flex; flex-direction: column; gap: 12px; }
+    .bio-m__text p { font-size: 15px; line-height: 1.6; color: var(--ink-80); }
+    .bio-m__lang { font-size: 13px; color: var(--ink-60); }
+
+    .legal-m { padding: clamp(28px, 4vw, 52px); }
+    .legal-m h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3.5vw, 38px); color: var(--ink); }
+    .legal-m .legal-m__upd { font-size: 13px; color: var(--ink-60); margin: 6px 0 24px; }
+    .legal-m h4 { font-weight: 600; font-size: 16px; color: var(--ink); margin: 20px 0 6px; }
+    .legal-m p { font-size: 14px; line-height: 1.65; color: var(--ink-80); margin-bottom: 10px; }
+    .legal-m ul { margin: 0 0 10px 18px; }
+    .legal-m li { font-size: 14px; line-height: 1.6; color: var(--ink-80); margin-bottom: 5px; }
+
+    .cookie {
+      position: fixed; left: 20px; bottom: 20px; z-index: 900;
+      max-width: 420px; background: var(--cream); color: var(--ink);
+      border: 1px solid var(--hairline); border-radius: 12px; padding: 18px 20px;
+      box-shadow: 0 20px 50px rgba(51,46,30,0.18);
+      display: flex; flex-direction: column; gap: 14px;
+      transform: translateY(20px); opacity: 0; transition: opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .cookie[hidden] { display: none; }
+    .cookie.is-in { opacity: 1; transform: none; }
+    .cookie__text { font-size: 13px; line-height: 1.55; color: var(--ink-80); }
+    .cookie__link { background: none; border: none; padding: 0; color: var(--olive); font: inherit; text-decoration: underline; cursor: pointer; }
+    .cookie__actions { display: flex; gap: 10px; }
+    .cookie__btn { font-family: var(--sans); font-weight: 600; font-size: 13px; border-radius: var(--r-md); padding: 10px 18px; cursor: pointer; border: 1px solid transparent; transition: background .3s ease, border-color .3s ease; }
+    .cookie__btn--ghost { background: transparent; border-color: var(--ink-20); color: var(--ink); }
+    .cookie__btn--ghost:hover { border-color: var(--ink); }
+    .cookie__btn--solid { background: var(--olive); color: var(--cream); }
+    .cookie__btn--solid:hover { background: #5a613f; }
+
+    @media (max-width: 720px) {
+      .bio-m { grid-template-columns: 1fr; }
+      .bio-m__photo { aspect-ratio: 3 / 2; }
+      .cookie { left: 12px; right: 12px; bottom: 12px; max-width: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.001s !important;
-        animation-delay: 0s !important;
-      }
-      .bg-video {
-        opacity: 1;
-      }
+      * { transition: none !important; scroll-behavior: auto !important; animation: none !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+      html.js .hero__eyebrows,
+      html.js .hero__block,
+      html.js .hero__headline { opacity: 1 !important; transform: none !important; }
+      html.js .hero__line { transform: none !important; }
+      html.js .dcar__copy > *,
+      html.js .dcar__cta,
+      html.js .dcar__stage,
+      html.js .dcar__foot,
+      html.js .cta-band__row { opacity: 1 !important; transform: none !important; }
+      #preloader { opacity: 0 !important; visibility: hidden !important; }
     }
   </style>
 </head>
 <body>
-  <main class="stage" id="stage">
-    <video
-      id="bg-video-1"
-      class="bg-video"
-      muted
-      playsinline
-      preload="auto"
-      crossorigin="anonymous"
-    >
-      <source
-        src="hf_20260807_031532_68295a3e-341d-411f-a39d-59469f54b5ec.mp4"
-        type="video/mp4"
-      />
-    </video>
 
-    <video
-      id="bg-video-2"
-      class="bg-video"
-      muted
-      playsinline
-      preload="auto"
-      crossorigin="anonymous"
-    >
-      <source
-        src="hf_20260807_034200_2ee6096c-4a71-4160-a21e-56e05c9ad055 (1).mp4"
-        type="video/mp4"
-      />
-    </video>
-
-    <div class="video-overlay"></div>
-    <div class="grain"></div>
-
-    <div class="content">
-      <header class="brand">
-        <img
-          src="Green Logo - no background.webp"
-          alt="Wellthera Integrated Health"
-        />
-      </header>
-
-      <section class="hero">
-        <p class="tagline">
-          Our clients deserve an exceptional, seamless experience.
-        </p>
-        <span class="divider" aria-hidden="true"></span>
-        <h1 class="headline">Coming Soon</h1>
-        <a
-          class="cta"
-          href="https://welltheraintegratedhealth.clinicsense.com/book/"
-          target="_blank"
-          rel="noopener"
-          aria-label="Book an appointment"
-        >
-          Book an Appointment
-        </a>
-      </section>
-
-      <footer class="foot">
-        <span class="foot-line" aria-hidden="true"></span>
-        <span class="foot-text">Wellthera Integrated Health</span>
-      </footer>
+  <!-- ==================== PRELOADER ==================== -->
+  <div id="preloader" aria-hidden="true">
+    <div class="pl-inner">
+      <img class="pl-logo" src="assets/logo-mark.svg" alt="" />
+      <div class="pl-bar"><span></span></div>
     </div>
-  </main>
+  </div>
+
+  <!-- ==================== MODAL ==================== -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-label="Dialog">
+      <button class="modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal__content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ==================== COOKIE CONSENT ==================== -->
+  <div class="cookie" id="cookie" hidden>
+    <p class="cookie__text" data-i18n-html="cookie.text">We use cookies to run this site and understand how it is used. Read our <button type="button" class="cookie__link" data-legal="privacy">Privacy Policy</button>.</p>
+    <div class="cookie__actions">
+      <button class="cookie__btn cookie__btn--ghost" id="cookieDecline" type="button" data-i18n="cookie.decline">Decline</button>
+      <button class="cookie__btn cookie__btn--solid" id="cookieAccept" type="button" data-i18n="cookie.accept">Accept</button>
+    </div>
+  </div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand-mark" href="#" aria-label="Wellthera Integrated Health">
+        <img src="assets/logo-mark.svg" alt="Wellthera" />
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <div class="nav__menu">
+          <a href="#services" data-i18n="nav.services">Services</a>
+          <a href="#about" class="is-muted" data-i18n="nav.about">About</a>
+          <a href="#team" data-i18n="nav.team">Team</a>
+          <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
+          <a href="#faq" data-i18n="nav.faq">FAQs</a>
+          <a href="#visit" data-i18n="nav.visit">Visit Us</a>
+        </div>
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+          <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        </div>
+        <a class="btn btn--outline" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#team" data-i18n="nav.team">Team</a>
+      <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
+      <a href="#faq" data-i18n="nav.faq">FAQs</a>
+      <a href="#visit" data-i18n="nav.visit">Visit Us</a>
+      <a class="btn btn--olive" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
+    </div>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="services">
+    <div class="hero__bg">
+      <video id="heroVideo" poster="assets/hero.jpg?v=3" muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/hero-video.webm?v=3" type="video/webm" />
+        <source src="assets/hero-video.mp4?v=3" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="hero__eyebrows">
+      <span class="eyebrow-pill">Barrie, ON</span>
+      <span class="tag" data-i18n="hero.tag">Integrated Healthcare &amp; Wellness Clinic</span>
+    </div>
+
+    <div class="hero__lower">
+      <div class="hero__block">
+        <div class="hero__descrow">
+          <p class="hero__desc" data-i18n="hero.desc">
+            Regulated care with the warmth of genuine hospitality. Massage therapy, lymphatic drainage, acupuncture and psychotherapy, in a calm and welcoming space.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--glass-strong" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
+            <button class="btn btn--glass" id="wihBtn" type="button">
+              <svg viewBox="0 0 17 17" fill="none" aria-hidden="true"><path d="M14.5 8.5 3.5 15V2z" fill="#fff"/></svg>
+              <span data-i18n="hero.wih">WIH by the owners</span>
+            </button>
+          </div>
+        </div>
+        <div class="hero__line"></div>
+      </div>
+      <h1 class="hero__headline" data-i18n-html="hero.headline">Modern healthcare.<br>A more elevated experience.</h1>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURE ==================== -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <h2 class="display feature__title" data-i18n-html="feat.title">Where regulated <em>healthcare</em> meets exceptional hospitality.</h2>
+
+      <div class="dcar" id="clinicCar">
+        <div class="dcar__copy" data-lines>
+          <p class="sc-p" data-i18n="feat.p1">We started Wellthera because good care and a good experience should never feel like a trade-off. Regulated therapies and modern wellness, brought together in one calm, welcoming clinic.</p>
+          <p class="sc-p" data-i18n="feat.p2">You get the comfort of a premium space, plus the everyday practicality of insurance-supported care and direct billing for eligible services.</p>
+        </div>
+        <a class="btn btn--olive dcar__cta" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
+        <div class="dcar__stage">
+          <button class="dcar__arrow is-prev" id="carPrev" type="button" aria-label="Previous photo"><img src="assets/icon-arrow.svg" alt="" aria-hidden="true"></button>
+          <div class="dcar__track" id="carTrack"></div>
+          <button class="dcar__arrow is-next" id="carNext" type="button" aria-label="Next photo"><img src="assets/icon-arrow.svg" alt="" aria-hidden="true"></button>
+        </div>
+        <div class="dcar__foot">
+          <div class="dcar__dots" id="carDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SERVICES (scroll-jacked) ==================== -->
+  <section class="svc" id="svcScroll" aria-label="Our services">
+    <div class="svc__sticky">
+      <div class="svc__media" id="svcMedia"></div>
+      <div class="svc__scrim"></div>
+      <div class="svc__inner">
+        <div class="wrap svc__grid">
+          <div class="svc__panels" id="svcPanels"></div>
+          <div class="svc__side">
+            <div class="svc__counter"><b id="svcNum">01</b> <span id="svcTot">/ 05</span></div>
+            <div class="svc__progress" id="svcProg" aria-hidden="true"></div>
+            <a class="btn btn--light svc__cta" id="svcBook" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TEAM ==================== -->
+  <section class="section" id="team">
+    <div class="wrap">
+      <h2 class="display team__title" data-i18n-html="team.title">Built with care, precision, and a <em>clear</em> point of view.</h2>
+
+      <div class="team__block">
+        <div class="team__row">
+          <div class="team__label" data-i18n="team.founders">Founders</div>
+          <div class="team__founders" id="teamFounders"></div>
+        </div>
+        <hr class="team__hr" />
+        <div class="team__row">
+          <div class="team__label" data-i18n="team.team">Team</div>
+          <div class="team__carousel">
+            <div class="team__track" id="teamTrack"></div>
+            <button class="team__next" id="teamNext" type="button" aria-label="Next team members"><img src="assets/icon-arrow.svg" alt="" aria-hidden="true"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INSURANCE MARQUEE + COMPLIANCE ==================== -->
+  <section class="section" style="padding-top:0" aria-label="Insurance and regulatory compliance">
+    <div class="wrap"><p class="billing__title" data-i18n="billing.title">Direct billing, made more convenient</p></div>
+    <div class="marquee" aria-hidden="true"><div class="marquee__track" id="insTrack"></div></div>
+
+    <div class="wrap compliance">
+      <p class="compliance__label" data-i18n="comp.label">Regulated care you can verify</p>
+      <p class="compliance__note" data-i18n="comp.note">Our practitioners are registered with Ontario's regulatory colleges, including the CMTO, CTCMPAO and CRPO. Each practitioner's registration can be verified on the applicable college's public register.</p>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="testimonials" id="testimonials">
+    <div class="wrap testimonials__inner">
+      <div class="testimonials__header">
+        <div class="rating">
+          <span class="eyebrow-pill" data-i18n="test.eyebrow">Testimonials</span>
+          <span class="tag" data-i18n-html="test.tag">4.6 out of 5&nbsp;&nbsp;<span class="star">★★★★★</span>&nbsp;&nbsp;Google</span>
+        </div>
+        <h2 class="display testimonials__title" data-i18n-html="test.title">See what our loved customers are <em>saying</em></h2>
+      </div>
+
+      <hr class="testimonials__hr" />
+
+      <div class="testimonial">
+        <div class="testimonial__box">
+          <div class="tstack" id="tStack"></div>
+          <div class="testimonial__nav">
+            <div class="dots" id="tDots"></div>
+            <div class="arrows">
+              <button class="arrow-btn is-prev" id="tPrev" type="button" aria-label="Previous review"><img src="assets/icon-arrow.svg" alt="" aria-hidden="true"></button>
+              <button class="arrow-btn is-next" id="tNext" type="button" aria-label="Next review"><img src="assets/icon-arrow.svg" alt="" aria-hidden="true"></button>
+            </div>
+          </div>
+          <a class="tmore" href="https://share.google/2fFGOgBZONzB0REDn" target="_blank" rel="noopener" data-i18n="test.more">Read more reviews on Google →</a>
+        </div>
+        <div class="testimonial__img" id="tImg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="faq__grid">
+        <h2 class="display faq__title" data-i18n-html="faq.title">Clear answers <em>before</em> you book.</h2>
+        <div class="faq__list">
+          <details class="faq__item" open>
+            <summary class="faq__q"><span data-i18n="faq.q1">Is my treatment covered by insurance?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a1">Coverage depends on your individual plan, provider, practitioner type, annual limits, and any referral requirements. Wellthera does not have access to the full details of your insurance policy, so we recommend confirming your coverage directly with your provider.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span data-i18n="faq.q2">Do you offer direct billing?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a2">Yes — we offer direct billing for eligible services through major providers including Sun Life, Canada Life, and Manulife, where your plan allows it.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span data-i18n="faq.q3">Do I need a doctor’s referral?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a3">Most of our services do not require a referral. Some insurance plans, however, may request one for reimbursement — please check with your provider.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span data-i18n="faq.q4">Can I choose my practitioner?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a4">Absolutely. You’re welcome to book with the practitioner of your choice, subject to availability.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span data-i18n="faq.q5">Is parking available?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a5">Yes, complimentary on-site parking is available for all patients at our Big Bay Point Road location.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span data-i18n="faq.q6">What is your cancellation policy?</span> <span class="icon" aria-hidden="true"></span></summary>
+            <p class="faq__a" data-i18n="faq.a6">We kindly ask for at least 24 hours’ notice to cancel or reschedule an appointment so we can offer the time to another patient.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA BAND ==================== -->
+  <section class="wrap" id="visit" aria-label="Book with Wellthera">
+    <div class="cta-band" id="ctaBand">
+      <div class="cta-band__bg">
+        <video id="ctaVideo" muted playsinline preload="auto" poster="assets/cta-video-first.jpg" aria-hidden="true">
+          <source src="assets/cta-video.webm" type="video/webm" />
+          <source src="assets/cta-video.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="cta-band__row">
+        <div class="cta-band__text">
+          <h2 class="display cta-band__title" data-i18n-html="cta.title">Premium <em>integrated</em> healthcare in Barrie, serving Innisfil and Simcoe County.</h2>
+          <p class="cta-band__sub" data-i18n="cta.sub">Book with Wellthera Integrated Health and experience regulated care, modern wellness, and genuine hospitality in one Barrie clinic.</p>
+        </div>
+        <a class="cta-pill" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener">
+          <img src="assets/cta-avatar.jpg" alt="" aria-hidden="true">
+          <span data-i18n="ui.book">Book Online</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VISIT / MAP ==================== -->
+  <section class="section" aria-label="Find us">
+    <div class="wrap visit-map__grid">
+      <div class="visit-map__info">
+        <h2 class="display visit-map__title" data-i18n-html="visit.title">Come and see us in <em>Barrie</em>.</h2>
+        <div class="visit-map__addr">
+          <p><strong>Wellthera Integrated Health</strong></p>
+          <p>464 Big Bay Point Rd.<br>Barrie, ON L4N 3Z4</p>
+        </div>
+        <p class="visit-map__hours" data-i18n-html="visit.hours">
+          Monday–Thursday: 9:00 a.m.–8:00 p.m.<br>
+          Friday: 9:00 a.m.–5:00 p.m.<br>
+          Saturday: 9:00 a.m.–3:00 p.m.
+        </p>
+        <a class="btn btn--olive" href="https://www.google.com/maps/dir/?api=1&destination=464+Big+Bay+Point+Rd,+Barrie,+ON+L4N+3Z4" target="_blank" rel="noopener" data-i18n="visit.dir">Get directions →</a>
+      </div>
+      <div class="visit-map__frame">
+        <iframe title="Map to Wellthera Integrated Health"
+          src="https://www.google.com/maps?q=464%20Big%20Bay%20Point%20Rd,%20Barrie,%20ON%20L4N%203Z4&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <img class="footer__leaf" src="assets/footer-leaf.svg" alt="" aria-hidden="true" />
+    <div class="wrap footer__inner">
+      <div class="footer__top">
+        <div class="footer__addr">
+          <img src="assets/footer-logo.svg" alt="Wellthera Integrated Health" />
+          <p class="addr">464 Big Bay Point Rd. Barrie, ON L4N 3Z4</p>
+          <p class="footer__hours" data-i18n-html="footer.hours">
+            <b>Monday–Thursday:</b><br>9:00 a.m.–8:00 p.m.<br>
+            <b>Friday:</b><br>9:00 a.m.–5:00 p.m.<br>
+            <b>Saturday:</b><br>9:00 a.m.–3:00 p.m.
+          </p>
+        </div>
+        <nav class="footer__links" aria-label="Footer">
+          <div>
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#services" data-i18n="nav.services">Services</a>
+            <a href="#team" data-i18n="nav.team">Team</a>
+          </div>
+          <div>
+            <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
+            <a href="#faq" data-i18n="nav.faq">FAQs</a>
+            <a href="#visit" data-i18n="footer.contact">Contact</a>
+          </div>
+          <div>
+            <a href="#" data-legal="privacy" data-i18n="footer.privacy">Privacy Policy</a>
+            <a href="#" data-legal="terms" data-i18n="footer.terms">Terms of Use</a>
+            <a href="#" data-legal="booking" data-i18n="footer.booking">Booking Terms</a>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <hr />
+        <div class="footer__copyrow">
+          <p class="footer__copy">© Wellthera Integrated Health 2026</p>
+          <div class="socials">
+            <a href="https://www.facebook.com/wellthera.healthcare" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-fb.svg" alt="" aria-hidden="true"></a>
+            <a href="https://www.instagram.com/wellthera.healthcare/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-ig.svg" alt="" aria-hidden="true"></a>
+            <a href="https://www.linkedin.com/company/wellthera-integrated-health/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-li.svg" alt="" aria-hidden="true"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var header = document.querySelector('.site-header');
+    var hero = document.querySelector('.hero');
+
+    // Preloader → hero video → copy reveal orchestration
     (function () {
-      const V1 = document.getElementById('bg-video-1');
-      const V2 = document.getElementById('bg-video-2');
-      const stage = document.getElementById('stage');
-      if (!V1 || !V2) return;
+      var pre = document.getElementById('preloader');
+      var video = document.getElementById('heroVideo');
+      var MIN_SPLASH = 1500;   // minimum ms the logo splash stays
+      var READY_CAP  = 6000;   // stop waiting for the video after this
+      var COPY_AT    = 2;      // seconds of video before the copy appears
+      var t0 = performance.now();
+      var hidden = false, copyShown = false, started = false;
 
-      const FWD_RATE = 0.55; // lower = slower / more cinematic
-      let unlocked = false;
+      function showCopy() { if (copyShown) return; copyShown = true; if (hero) hero.classList.add('copy-in'); }
+      function hidePreloader() { if (hidden) return; hidden = true; if (pre) pre.classList.add('is-hidden'); }
 
-      const activate = (video) => {
-        [V1, V2].forEach((v) => {
-          v.classList.toggle('is-active', v === video);
-        });
-      };
+      if (prefersReduced) {
+        hidePreloader(); showCopy();
+        if (video) { try { video.muted = true; video.play(); } catch (e) {} }
+        return;
+      }
 
-      const safePlay = (video) => {
-        const p = video.play();
-        if (p && typeof p.catch === 'function') {
-          p.catch(() => {
-            if (unlocked) return;
-            const resume = () => {
-              unlocked = true;
-              video.play().catch(() => {});
-              document.removeEventListener('touchstart', resume);
-              document.removeEventListener('click', resume);
-            };
-            document.addEventListener('touchstart', resume, { once: true });
-            document.addEventListener('click', resume, { once: true });
+      function startExperience() {
+        var wait = Math.max(0, MIN_SPLASH - (performance.now() - t0));
+        setTimeout(function () {
+          hidePreloader();
+          if (!video) { showCopy(); return; }
+          video.muted = true;
+          try { video.currentTime = 0; } catch (e) {}
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {
+            // autoplay blocked: don't leave the page stuck
+            showCopy();
+            var resume = function () { video.play().catch(function () {}); };
+            document.addEventListener('pointerdown', resume, { once: true });
           });
+        }, wait);
+      }
+
+      function kick() { if (started) return; started = true; startExperience(); }
+
+      if (video) {
+        video.addEventListener('timeupdate', function () {
+          if (video.currentTime >= COPY_AT) showCopy();
+        });
+        video.addEventListener('error', function () { hidePreloader(); showCopy(); });
+        if (video.readyState >= 3) kick();
+        else {
+          video.addEventListener('canplaythrough', kick, { once: true });
+          video.addEventListener('canplay', kick, { once: true });
         }
-      };
+        setTimeout(kick, READY_CAP);
+        setTimeout(showCopy, READY_CAP + 4000); // ultimate safety net
+      } else {
+        kick();
+        setTimeout(showCopy, MIN_SPLASH + 400);
+      }
+    })();
 
-      const playForward = (video, onEnd) => {
-        activate(video);
-        try { video.playbackRate = FWD_RATE; } catch (_) {}
-        const handleEnded = () => {
-          video.removeEventListener('ended', handleEnded);
-          if (onEnd) onEnd();
-        };
-        video.addEventListener('ended', handleEnded);
-        video.currentTime = 0;
-        safePlay(video);
+    // Navbar: transparent over the hero, frosted once scrolled past it
+    (function () {
+      if (!header) return;
+      var menuOpen = false;
+      function threshold() { return hero ? Math.max(80, hero.offsetHeight - 90) : 80; }
+      window.__updateHeader = function () {
+        var solid = menuOpen || window.scrollY > threshold();
+        header.classList.toggle('is-scrolled', solid);
       };
+      window.__setMenuOpen = function (v) { menuOpen = v; window.__updateHeader(); };
+      window.addEventListener('scroll', window.__updateHeader, { passive: true });
+      window.addEventListener('resize', window.__updateHeader);
+      window.__updateHeader();
+    })();
 
-      const start = () => {
-        // V1 forward -> V2 forward -> hold on last frame
-        playForward(V1, () => {
-          V1.pause();
-          playForward(V2, () => {
-            // Hold the last frame of V2
-            try { V2.pause(); } catch (_) {}
+    // Mobile nav
+    (function () {
+      var t = document.getElementById('navToggle');
+      var m = document.getElementById('mobileMenu');
+      if (t && m) {
+        t.addEventListener('click', function () {
+          var open = m.classList.toggle('is-open');
+          t.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (window.__setMenuOpen) window.__setMenuOpen(open);
+        });
+        m.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            m.classList.remove('is-open');
+            t.setAttribute('aria-expanded', 'false');
+            if (window.__setMenuOpen) window.__setMenuOpen(false);
           });
         });
-      };
+      }
+    })();
 
-      // Wait until both videos are ready enough for smooth handoff
-      let readyCount = 0;
-      const onReady = () => {
-        readyCount++;
-        if (readyCount >= 2) {
-          stage.classList.add('is-ready');
-          start();
-        }
-      };
-      [V1, V2].forEach((v) => {
-        if (v.readyState >= 2) onReady();
-        else v.addEventListener('loadeddata', onReady, { once: true });
+    // FAQ — single-open accordion behaviour
+    (function () {
+      var items = document.querySelectorAll('.faq__item');
+      items.forEach(function (item) {
+        item.addEventListener('toggle', function () {
+          if (item.open) {
+            items.forEach(function (o) { if (o !== item) o.open = false; });
+          }
+        });
       });
+    })();
+
+    // Team — person cards with hover bio (tap-to-reveal on touch)
+    (function () {
+      var foundersEl = document.getElementById('teamFounders');
+      var trackEl = document.getElementById('teamTrack');
+      var nextBtn = document.getElementById('teamNext');
+      if (!foundersEl || !trackEl) return;
+      var PEOPLE = [
+        { photo: 'team-camila', name: 'Camila Dos Santos', tag: 'Founder', role: 'Founder · Registered Massage Therapist',
+          bio: 'Born and raised in Brazil, Camila brings warmth, clinical care, and a strong commitment to patient comfort to every appointment.',
+          chips: ['RMT','MLD','Prenatal','Pediatric','Indie Head'], lang: 'English · Portuguese',
+          ext: ["Camila Dos Santos is the founder of Wellthera Integrated Health and a Registered Massage Therapist who graduated with honours from Georgian College. Born and raised in Brazil, she brings a warm, attentive approach to care and has played a central role in shaping Wellthera's hospitality-driven patient experience.",
+                "She has a particular passion for Manual Lymphatic Drainage and provides Wellthera's signature treatment incorporating Brazilian Protocol techniques. Camila also offers therapeutic, prenatal and pediatric massage (ages 4 to 12) and Indie Head Massage, adapting each appointment to the client's health history, comfort and goals.",
+                "She provides care in English and Portuguese. Outside the clinic, Camila enjoys time with her family, being outdoors and caring for her pets."] },
+        { photo: 'team-samuel', name: 'Samuel Dos Santos', tag: 'Co-Founder · Managing Director', role: 'Co-Founder | Managing Director',
+          bio: "Samuel's background in aviation and business brings a focus on precision, dependable systems, and a client-first culture.",
+          chips: [], lang: 'English · Portuguese',
+          ext: ["Samuel Dos Santos is the co-founder of Wellthera Integrated Health. His background in aviation and business brings a strong focus on precision, dependable systems and a client-first culture.",
+                "Behind the scenes, Samuel helps shape the operational and hospitality standards that make every Wellthera visit feel calm, considered and welcoming."] },
+        { photo: 'team-jaime', name: 'Jaime Belisle', tag: 'Manager', role: 'Clinic Manager',
+          bio: 'Jaime leads day-to-day operations at Wellthera, keeping every visit calm, organized and welcoming from booking through reception.',
+          chips: [], lang: 'English',
+          ext: ["Jaime Belisle is Wellthera's Clinic Manager. She leads the clinic's day-to-day operations, keeping every visit calm, organized and welcoming from the first booking through to reception.",
+                "From coordinating appointments to caring for the little details of the space, Jaime makes sure patients and practitioners are looked after at every step."] },
+        { photo: 'team-rachel', name: 'Rachel Wallace', tag: 'RMT', role: 'Registered Massage Therapist',
+          bio: 'Rachel provides patient-centred massage therapy, adapting each treatment so clients feel comfortable, heard, and involved in their care.',
+          chips: ['RMT','MLD','Prenatal','Pediatric','Indie Head','Cupping'], lang: 'English',
+          ext: ["Rachel Wallace is a Registered Massage Therapist and graduate of Oxford College's Massage Therapy program. She also holds a Bachelor of Arts in Health Studies.",
+                "Rachel takes a patient-centred approach, adapting each appointment to the client's health history, comfort, goals and response to treatment. Her treatments may incorporate Swedish massage, deep tissue, myofascial and trigger-point techniques, stretching and cupping when appropriate.",
+                "She offers therapeutic, prenatal and pediatric massage, Indie Head Massage and Manual Lymphatic Drainage. Outside the clinic, she enjoys reading, working out and following sports."] },
+        { photo: 'team-yuki', name: 'Yuki Hamada', tag: 'RMT', role: 'Registered Massage Therapist',
+          bio: "Yuki offers personalized massage therapy with a calm, supportive approach, adapting each treatment to the client's lifestyle and goals.",
+          chips: ['RMT','MLD','Prenatal','Postnatal','Pediatric','TMJ'], lang: 'English · Japanese',
+          ext: ["Yuki Hamada is a Registered Massage Therapist who graduated with honours from Georgian College.",
+                "She offers therapeutic, prenatal and postnatal massage, pediatric massage (ages 4 to 12), Manual Lymphatic Drainage incorporating Brazilian Protocol techniques, and massage focused on TMJ, jaw and facial tension. Yuki takes time to understand each client's concerns, routines and goals, and values clear communication so clients feel comfortable and informed.",
+                "She provides care in English and Japanese."] },
+        { photo: 'team-liz', name: 'Liz Cerato', tag: 'RMT', role: 'Registered Massage Therapist',
+          bio: 'Liz combines her previous experience as a pharmacist in Brazil with personalized, hands-on massage therapy and a calm, individualized approach.',
+          chips: ['RMT','MLD','Prenatal','Pediatric'], lang: 'English · Portuguese',
+          ext: ["Elizabeth “Liz” Cerato is a Registered Massage Therapist who graduated with honours from Oxford College's Massage Therapy program in 2023.",
+                "Before becoming an RMT, Liz worked as a pharmacist in Brazil for 15 years. That experience deepened her understanding of health, anatomy, physiology and the importance of safe, individualized care.",
+                "She offers therapeutic, prenatal and pediatric massage and Manual Lymphatic Drainage, and is passionate about hands-on care that supports comfort, relaxation and recovery. Liz provides care in English and Portuguese."] },
+        { photo: 'team-thaisa', name: 'Thaisa Sakima', tag: 'RMT', role: 'Registered Massage Therapist',
+          bio: "Thaisa's physiotherapy background in Brazil informs her understanding of posture, movement and functional mobility within her work as an RMT.",
+          chips: ['RMT','Prenatal','Pediatric'], lang: 'English · Portuguese',
+          ext: ["Thaisa Sakima is a Registered Massage Therapist who graduated with honours from Georgian College. Before becoming an RMT in Ontario, she trained and practised as a physiotherapist in Brazil.",
+                "Her physiotherapy background informs her understanding of movement, posture and functional mobility, and she has completed Pilates coursework that expanded her understanding of core function. All treatments are provided within her current scope as an RMT.",
+                "Her approach is individualized and practical, considering each client's history, movement patterns, comfort and goals. She provides care in English and Portuguese."] },
+        { photo: 'team-kiana', name: 'Kiana Forder', tag: 'Acupuncturist', role: 'Registered Acupuncturist',
+          bio: "Kiana provides individualized acupuncture in a calm, supportive setting, shaping each plan around the client's health history, comfort and goals.",
+          chips: ['Acupuncture','Facial Acupuncture','Pain Support','Stress Support'], lang: 'English',
+          ext: ["Kiana Forder is a Registered Acupuncturist and graduate of Georgian College. She believes effective care begins with listening.",
+                "Clients may seek acupuncture with Kiana for acute or chronic pain, muscular tension, nerve-related discomfort, physical strain, stress and general wellness. She also provides facial acupuncture for facial and jaw tension, relaxation and a naturally refreshed appearance.",
+                "She aims to make acupuncture feel approachable and comfortable, especially for those new to treatment. Kiana provides care in English."] },
+        { photo: 'team-giovanna', name: 'Giovanna Faedo', tag: 'Psychotherapist', role: 'Registered Psychotherapist (Qualifying)',
+          bio: 'Giovanna offers in-person psychotherapy for adults, creating a warm, inclusive space to explore anxiety, grief, relationships, identity and life transitions.',
+          chips: ['Adult Psychotherapy','Fit Consultation'], lang: 'English · Portuguese',
+          ext: ["Giovanna Faedo is a Registered Psychotherapist (Qualifying) who offers individual, in-person psychotherapy for adults in English and Portuguese.",
+                "She creates a warm, supportive and non-judgmental space, supporting adults navigating anxiety, depression, trauma, grief, life transitions, relationships, identity, motherhood and cultural transitions. Her approach draws from psychodynamic, relational, attachment-based and person-centred therapies, informed by an anti-oppressive and culturally responsive lens.",
+                "Before psychotherapy, Giovanna worked in social services supporting immigrants and refugees, and her earlier career in law shaped her understanding of how people respond to change and uncertainty. She offers a complimentary fit consultation."] },
+        { photo: 'team-elise', name: 'Elise K. Papa', tag: 'Partnership', role: 'Registered Nurse · Aesthetic Injector',
+          bio: 'Elise is a Registered Nurse and aesthetic injector whose approach emphasizes informed decision-making and natural-looking results.',
+          chips: ['Botox','Dermal Fillers','Skin Boosters','Microneedling','PRP'], lang: 'English · Portuguese',
+          ext: ["Elise K. Papa is a Registered Nurse in Ontario and an aesthetic injector whose approach emphasizes informed decision-making and natural-looking results.",
+                "Her clinical injectables are offered as an independent partnership within the Wellthera space. She initially offers Botox consultations and treatments, with additional aesthetic services to follow.",
+                "Bookings for Elise's services are managed independently through her own booking system."] }
+      ];
+      var byPhoto = {};
+      PEOPLE.forEach(function (p) { byPhoto[p.photo] = p; });
+      var founders = ['team-camila', 'team-samuel'].map(function (k) { return byPhoto[k]; });
+      var team = ['team-kiana', 'team-yuki', 'team-rachel', 'team-liz', 'team-thaisa', 'team-giovanna', 'team-elise', 'team-jaime'].map(function (k) { return byPhoto[k]; });
+
+      function card(p) {
+        var chips = (p.chips && p.chips.length)
+          ? '<div class="pcard__chips">' + p.chips.map(function (c) { return '<span>' + c + '</span>'; }).join('') + '</div>' : '';
+        return '<article class="pcard" data-photo="' + p.photo + '">'
+          + '<img class="pcard__photo" src="assets/' + p.photo + '.jpg?v=2" alt="' + p.name + '">'
+          + '<span class="pcard__tag" data-i18n="p.' + p.photo + '.tag">' + p.tag + '</span>'
+          + '<div class="pcard__name">' + p.name + '</div>'
+          + '<div class="pcard__bio">'
+          + '<div><div class="pcard__bn">' + p.name + '</div><div class="pcard__br" data-i18n="p.' + p.photo + '.role">' + p.role + '</div></div>'
+          + '<p class="pcard__bt" data-i18n="p.' + p.photo + '.bio">' + p.bio + '</p>' + chips
+          + '<div class="pcard__lang" data-i18n="p.' + p.photo + '.lang">' + p.lang + '</div>'
+          + '<button type="button" class="pcard__more" data-i18n-html="ui.learnmore">Learn more <span aria-hidden="true">→</span></button>'
+          + '</div></article>';
+      }
+      foundersEl.innerHTML = founders.map(card).join('');
+      trackEl.innerHTML = team.map(card).join('');
+
+      var touch = window.matchMedia('(pointer: coarse)').matches;
+      if (touch) {
+        document.querySelectorAll('#team .pcard').forEach(function (c) {
+          c.addEventListener('click', function (e) {
+            if (e.target.closest('.pcard__more')) return;
+            var open = c.classList.contains('is-hover');
+            document.querySelectorAll('#team .pcard').forEach(function (o) { o.classList.remove('is-hover'); });
+            if (!open) c.classList.add('is-hover');
+          });
+        });
+      }
+
+      // Learn more -> extended bio modal
+      function personModal(p) {
+        var chips = (p.chips && p.chips.length)
+          ? '<div class="bio-m__chips">' + p.chips.map(function (c) { return '<span>' + c + '</span>'; }).join('') + '</div>' : '';
+        var extKey = 'p.' + p.photo + '.ext';
+        var extTrans = (LANG !== 'en' && window.I18N && window.I18N[LANG]) ? window.I18N[LANG][extKey] : null;
+        var extArr = (extTrans && extTrans.length) ? extTrans : (p.ext || [p.bio]);
+        var text = extArr.map(function (x) { return '<p>' + x + '</p>'; }).join('');
+        var mtag = t('p.' + p.photo + '.tag', p.tag);
+        var mrole = t('p.' + p.photo + '.role', p.role);
+        var mlang = t('p.' + p.photo + '.lang', p.lang);
+        return '<div class="bio-m">'
+          + '<div class="bio-m__photo"><img src="assets/' + p.photo + '.jpg?v=2" alt="' + p.name + '"></div>'
+          + '<div class="bio-m__body">'
+          + '<span class="pcard__tag bio-m__tag">' + mtag + '</span>'
+          + '<h3 class="bio-m__name">' + p.name + '</h3>'
+          + '<p class="bio-m__role">' + mrole + '</p>' + chips
+          + '<div class="bio-m__text">' + text + '</div>'
+          + '<p class="bio-m__lang">' + mlang + '</p>'
+          + '</div></div>';
+      }
+      var teamSec = document.getElementById('team');
+      if (teamSec) {
+        teamSec.addEventListener('click', function (e) {
+          var btn = e.target.closest('.pcard__more');
+          if (!btn) return;
+          e.preventDefault(); e.stopPropagation();
+          var art = btn.closest('.pcard');
+          var p = art && byPhoto[art.getAttribute('data-photo')];
+          if (p && window.openModal) window.openModal(personModal(p));
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          var c = trackEl.querySelector('.pcard');
+          var step = c ? c.getBoundingClientRect().width + 18 : 300;
+          var atEnd = trackEl.scrollLeft + trackEl.clientWidth >= trackEl.scrollWidth - 4;
+          trackEl.scrollBy({ left: atEnd ? -trackEl.scrollLeft : step, behavior: 'smooth' });
+        });
+      }
+    })();
+
+    // Scroll reveal — elegant fade/rise as sections enter the viewport
+    (function () {
+      if (prefersReduced || !('IntersectionObserver' in window)) return;
+      var groups = [
+        ['.feature__title'], ['.feature__img', '.feature__col'],
+        ['.band'],
+        ['.team__title'],
+        ['.billing__title'], ['.compliance'],
+        ['.testimonials__header'], ['.testimonial'],
+        ['.faq__title'], ['.faq__item'],
+        ['.footer__addr', '.footer__links'], ['.footer__bottom']
+      ];
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+      groups.forEach(function (sel) {
+        var els = document.querySelectorAll(sel.join(','));
+        els.forEach(function (el, i) {
+          el.setAttribute('data-reveal', '');
+          el.style.transitionDelay = Math.min(i * 90, 360) + 'ms';
+          io.observe(el);
+        });
+      });
+    })();
+
+    // Buttery inertia smooth-scroll (desktop pointer only)
+    (function () {
+      if (prefersReduced) return;
+      if (window.matchMedia('(pointer: coarse)').matches) return;
+
+      document.documentElement.style.scrollBehavior = 'auto';
+      var targetY = window.scrollY, currentY = targetY, running = false;
+      var EASE = 0.10;
+
+      function maxScroll() { return document.documentElement.scrollHeight - window.innerHeight; }
+      function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
+
+      function frame() {
+        var diff = targetY - currentY;
+        if (Math.abs(diff) < 0.4) { currentY = targetY; window.scrollTo(0, currentY); running = false; return; }
+        currentY += diff * EASE;
+        window.scrollTo(0, currentY);
+        requestAnimationFrame(frame);
+      }
+      function start() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+      window.addEventListener('wheel', function (e) {
+        if (e.ctrlKey) return;                 // let pinch-zoom through
+        e.preventDefault();
+        var d = e.deltaY;
+        if (e.deltaMode === 1) d *= 16;        // line units
+        else if (e.deltaMode === 2) d *= window.innerHeight;
+        targetY = clamp(targetY + d);
+        start();
+      }, { passive: false });
+
+      // keep target synced with scrollbar drags / programmatic jumps
+      window.addEventListener('scroll', function () { if (!running) { targetY = currentY = window.scrollY; } }, { passive: true });
+      window.addEventListener('resize', function () { targetY = clamp(targetY); });
+
+      // smooth anchor navigation
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href');
+          if (!id || id.length < 2) return;
+          var el = document.querySelector(id);
+          if (!el) return;
+          e.preventDefault();
+          var navH = header ? header.offsetHeight : 72;
+          targetY = clamp(el.getBoundingClientRect().top + window.scrollY - navH + 1);
+          start();
+        });
+      });
+    })();
+
+    // Clinic depth-blur carousel — center sharp, neighbours blurred & scaled back
+    (function () {
+      var root = document.getElementById('clinicCar');
+      if (!root) return;
+      var track = document.getElementById('carTrack');
+      var dotsWrap = document.getElementById('carDots');
+      var prevBtn = document.getElementById('carPrev');
+      var nextBtn = document.getElementById('carNext');
+
+      var files = ['11','08','15','06','20','12','17','18','10','05','19','07'];
+      var srcs = files.map(function (f) { return 'assets/clinic-web/clinic-' + f + '.jpg'; });
+      var n = srcs.length;
+      var active = 0, timer = null, DELAY = 5000;
+
+      function offset(k) {
+        var p = k - active;
+        if (p > n / 2) p -= n;
+        if (p < -n / 2) p += n;
+        return p;
+      }
+
+      var slides = srcs.map(function (src, k) {
+        var s = document.createElement('div');
+        s.className = 'dcar__slide';
+        var img = document.createElement('img');
+        img.src = src; img.alt = 'Inside the Wellthera clinic';
+        s.appendChild(img);
+        s.addEventListener('click', function () { if (offset(k) !== 0) go(k, true); });
+        track.appendChild(s);
+        return s;
+      });
+
+      var dots = srcs.map(function (_, k) {
+        var d = document.createElement('button');
+        d.type = 'button'; d.setAttribute('aria-label', 'Photo ' + (k + 1));
+        d.addEventListener('click', function () { go(k, true); });
+        dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function layout() {
+        var w = slides[0].offsetWidth || 500;
+        var gap = w * 0.72;
+        slides.forEach(function (sl, k) {
+          var p = offset(k), ap = Math.abs(p);
+          var s, blur, op, br, z;
+          if (ap === 0)      { s = 1;    blur = 0;  op = 1;   br = 1;    z = 30; }
+          else if (ap === 1) { s = 0.80; blur = 6;  op = 0.9; br = 0.94; z = 20; }
+          else if (ap === 2) { s = 0.64; blur = 13; op = 0.5; br = 0.85; z = 10; }
+          else               { s = 0.60; blur = 16; op = 0;   br = 0.8;  z = 1;  }
+          sl.style.transform = 'translate(calc(-50% + ' + (p * gap) + 'px), -50%) scale(' + s + ')';
+          sl.style.filter = 'blur(' + blur + 'px) brightness(' + br + ')';
+          sl.style.opacity = op;
+          sl.style.zIndex = z;
+          sl.style.pointerEvents = (ap === 0 || op === 0) ? 'none' : 'auto';
+        });
+        dots.forEach(function (d, k) { d.classList.toggle('is-active', k === active); });
+      }
+
+      function go(k, manual) { active = (k % n + n) % n; layout(); if (manual) restart(); }
+      function start() { if (prefersReduced) return; stop(); timer = setInterval(function () { go(active + 1); }, DELAY); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function restart() { stop(); start(); }
+
+      nextBtn.addEventListener('click', function () { go(active + 1, true); });
+      prevBtn.addEventListener('click', function () { go(active - 1, true); });
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', start);
+      window.addEventListener('resize', layout);
+      window.addEventListener('load', layout);
+
+      var sx = null;
+      root.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; stop(); }, { passive: true });
+      root.addEventListener('touchend', function (e) {
+        if (sx === null) return;
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1), true); else start();
+        sx = null;
+      }, { passive: true });
+
+      layout();
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { root.classList.add('is-in'); layout(); start(); }
+            else stop();
+          });
+        }, { threshold: 0.15 });
+        io.observe(root);
+      } else { root.classList.add('is-in'); start(); }
+    })();
+
+    // Services — scroll-jacked pinned steps (each service is a "slide")
+    var SERVICES = [
+      { n: '01', t: 'Registered Massage Therapy', img: 'assets/rmt-hero.jpg', video: 'svc-rmt',
+        d: 'Hands-on therapy tailored to your body, your goals and your history, for tension, recovery, mobility and everyday stress.',
+        subs: ['Therapeutic massage','Deep tissue massage','Myofascial release','Sports massage','Prenatal massage','Pediatric massage','Indie Head Massage','TMJ massage therapy','Cupping'] },
+      { n: '02', t: 'Manual Lymphatic Drainage', img: 'assets/clinic-web/clinic-15.jpg', video: 'svc-mld',
+        d: 'A gentle, rhythmic technique that supports your lymphatic system and helps your body recover.',
+        subs: ['Manual Lymphatic Drainage'] },
+      { n: '03', t: 'Acupuncture', img: 'assets/clinic-web/clinic-17.jpg', video: 'svc-acupuncture',
+        d: 'Fine-needle therapy to ease tension, support recovery and help you feel balanced.',
+        subs: ['Acupuncture','Facial Acupuncture'] },
+      { n: '04', t: 'Psychotherapy', img: 'assets/clinic-web/clinic-11.jpg', video: 'svc-psychotherapy',
+        d: 'A calm, confidential space to talk things through and feel more like yourself.',
+        subs: ['Psychotherapy','Complimentary Fit Consultation'] },
+      { n: '05', t: 'Clinical Nurse-Led Injectables', img: 'assets/clinic-web/clinic-18.jpg', video: 'svc-nurse',
+        book: 'https://cal.com/wellthera',
+        d: 'Registered nurse-led injectables, offered as an independent partnership within the clinic. Aesthetic treatments delivered safely, with a natural and refreshed result in mind.',
+        subs: ['Botox','Dermal fillers','Lip flip','Skin boosters','Microneedling','Sculptra','PRP for the face','PRP for the scalp'] }
+    ];
+    (function () {
+      var sec = document.getElementById('svcScroll');
+      if (!sec) return;
+      var media = document.getElementById('svcMedia');
+      var panelsW = document.getElementById('svcPanels');
+      var prog = document.getElementById('svcProg');
+      var numEl = document.getElementById('svcNum');
+      var N = SERVICES.length;
+      sec.style.height = (N * 100) + 'vh';
+      document.getElementById('svcTot').textContent = '/ 0' + N;
+
+      var bgs = [], panels = [], segs = [];
+      SERVICES.forEach(function (s, k) {
+        var bg = document.createElement('div');
+        bg.className = 'svc__bg' + (k === 0 ? ' is-active' : '');
+        bg.innerHTML = s.video
+          ? '<video muted loop playsinline preload="auto" poster="' + s.img + '">'
+            + '<source src="assets/' + s.video + '.webm" type="video/webm">'
+            + '<source src="assets/' + s.video + '.mp4" type="video/mp4"></video>'
+          : '<img src="' + s.img + '" alt="" loading="' + (k < 2 ? 'eager' : 'lazy') + '">';
+        media.appendChild(bg); bgs.push(bg);
+
+        var p = document.createElement('article');
+        p.className = 'svc__panel' + (k === 0 ? ' is-active' : '');
+        p.innerHTML = '<h2 class="svc__title" data-i18n="svc.' + s.n + '.t">' + s.t + '</h2>' +
+          '<p class="svc__desc" data-i18n="svc.' + s.n + '.d">' + s.d + '</p>' +
+          '<div class="svc__subs" data-i18n-html="svc.' + s.n + '.subs">' + s.subs.map(function (x) { return '<span class="svc__sub">' + x + '</span>'; }).join('') + '</div>';
+        panelsW.appendChild(p); panels.push(p);
+
+        var seg = document.createElement('div');
+        seg.className = 'svc__seg'; seg.innerHTML = '<i></i>';
+        prog.appendChild(seg); segs.push(seg.querySelector('i'));
+      });
+
+      var cur = -1, vertical = true, inView = false;
+      function refreshAxis() { vertical = window.innerWidth > 720; }
+      refreshAxis();
+
+      function syncVideos() {
+        bgs.forEach(function (b, k) {
+          var v = b.querySelector('video');
+          if (!v) return;
+          if (inView && k === cur) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+          else { v.pause(); }
+        });
+      }
+      var svcBook = document.getElementById('svcBook');
+      var DEFAULT_BOOK = svcBook ? svcBook.getAttribute('href') : '';
+      function setActive(a, frac) {
+        if (a !== cur) {
+          bgs.forEach(function (b, k) { b.classList.toggle('is-active', k === a); });
+          panels.forEach(function (p, k) { p.classList.toggle('is-active', k === a); });
+          numEl.textContent = SERVICES[a].n;
+          if (svcBook) svcBook.href = SERVICES[a].book || DEFAULT_BOOK;
+          cur = a;
+          syncVideos();
+        }
+        segs.forEach(function (f, k) {
+          var v = k < a ? 1 : (k === a ? frac : 0);
+          f.style.transform = (vertical ? 'scaleY(' : 'scaleX(') + v + ')';
+        });
+      }
+      function onScroll() {
+        var vh = window.innerHeight;
+        var rect = sec.getBoundingClientRect();
+        var nowIn = rect.top < vh && rect.bottom > 0;
+        if (nowIn !== inView) { inView = nowIn; syncVideos(); }
+        var total = sec.offsetHeight - vh;
+        var scrolled = Math.min(Math.max(-rect.top, 0), total);
+        var f = (total > 0 ? scrolled / total : 0) * N;
+        var a = Math.min(Math.floor(f), N - 1);
+        setActive(a, Math.min(Math.max(f - a, 0), 1));
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { refreshAxis(); onScroll(); });
+      setActive(0, 0); onScroll();
+    })();
+
+    // Insurance marquee (infinite)
+    (function () {
+      var track = document.getElementById('insTrack');
+      if (!track) return;
+      var ins = [
+        'manulife','sunlife','canadalife','desjardins','beneva','gms',
+        { n: 'telus', h: 58 }, 'ia', { n: 'cowan', h: 46 }, 'coughlin', 'johnson', 'manion',
+        { n: 'rwam', h: 52 }, 'claimsecure', 'groupsource', 'firstcanadian'
+      ];
+      var one = ins.map(function (x) {
+        var name = x.n || x, st = x.h ? ' style="height:' + x.h + 'px"' : '';
+        return '<img src="assets/logos/ins-' + name + '.png?t=2" alt=""' + st + '>';
+      }).join('');
+      track.innerHTML = one + one; // duplicate set for a seamless loop
+    })();
+
+    // Testimonials — real Google reviews, auto-rotating with clinic imagery
+    (function () {
+      var stack = document.getElementById('tStack');
+      if (!stack) return;
+      var dotsW = document.getElementById('tDots');
+      var imgW = document.getElementById('tImg');
+      var prev = document.getElementById('tPrev'), next = document.getElementById('tNext');
+      var root = document.getElementById('testimonials');
+
+      var REVIEWS = [
+        { name: 'Consuelo Ortegon Garza', meta: '4 months ago', img: 'clinic-08',
+          text: 'As soon as I entered I started feeling good. The atmosphere is so inviting, and everyone made sure I was comfortable before anything else. Camila was incredibly professional and did an amazing job. It was the best massage therapy I have ever had, and I will be coming back as much as I can.' },
+        { name: 'Laura K', meta: 'Local Guide · a year ago', img: 'clinic-11',
+          text: 'Wellthera has a beautiful mix of spa, elegance, warmth and comfort. Camila gave me a fantastic massage and assessed all the challenging areas, offering utter relaxation and tension relief. From the front desk to the end, a high level of professionalism and ease.' },
+        { name: 'Mary Van Essen', meta: '4 months ago', img: 'clinic-06',
+          text: 'Wellthera exudes peace and relaxation the minute you step through the door. Camila is such a caring person and a highly competent massage therapist. I am able to relax fully, as I always feel I am in good hands. I look forward to each appointment as the ultimate treat!' },
+        { name: 'Rubem Linn', meta: 'Local Guide · 4 months ago', img: 'clinic-20',
+          text: 'Been coming here for a year now and it has been consistently good. Camila is attentive and grounded, and you can tell she is genuinely paying attention to you. That carries through the whole team. It is calm, unpretentious, and everyone truly cares. Really glad I found this place.' }
+      ];
+      var n = REVIEWS.length, i = 0, timer = null, DELAY = 7000;
+
+      var slides = REVIEWS.map(function (r, k) {
+        var s = document.createElement('div');
+        s.className = 'tslide' + (k === 0 ? ' is-active' : '');
+        s.innerHTML = '<div class="tstars" aria-hidden="true">★★★★★</div>'
+          + '<p class="testimonial__author">' + r.name + '</p>'
+          + '<p class="tmeta" data-i18n="rev.' + r.img + '.meta">' + r.meta + '</p>'
+          + '<p class="testimonial__quote" data-i18n-html="rev.' + r.img + '.text">“' + r.text + '”</p>';
+        stack.appendChild(s); return s;
+      });
+      var imgs = REVIEWS.map(function (r, k) {
+        var im = document.createElement('img');
+        im.className = 'timg' + (k === 0 ? ' is-active' : '');
+        im.src = 'assets/clinic-web/' + r.img + '.jpg';
+        im.alt = 'Inside the Wellthera clinic';
+        imgW.appendChild(im); return im;
+      });
+      var dots = REVIEWS.map(function (_, k) {
+        var d = document.createElement('button');
+        d.type = 'button'; d.setAttribute('aria-label', 'Review ' + (k + 1));
+        if (k === 0) d.className = 'is-active';
+        d.addEventListener('click', function () { go(k, true); });
+        dotsW.appendChild(d); return d;
+      });
+
+      function go(k, manual) {
+        i = (k % n + n) % n;
+        slides.forEach(function (s, x) { s.classList.toggle('is-active', x === i); });
+        imgs.forEach(function (m, x) { m.classList.toggle('is-active', x === i); });
+        dots.forEach(function (d, x) { d.classList.toggle('is-active', x === i); });
+        if (manual) restart();
+      }
+      function start() { if (prefersReduced) return; stop(); timer = setInterval(function () { go(i + 1); }, DELAY); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function restart() { stop(); start(); }
+
+      next.addEventListener('click', function () { go(i + 1, true); });
+      prev.addEventListener('click', function () { go(i - 1, true); });
+      if (root) { root.addEventListener('mouseenter', stop); root.addEventListener('mouseleave', start); }
+      start();
+    })();
+
+    // CTA band — play the branded video on scroll-in, then reveal the (dark) copy
+    (function () {
+      var band = document.getElementById('ctaBand');
+      var v = document.getElementById('ctaVideo');
+      if (!band) return;
+      var revealed = false;
+      function reveal() { if (revealed) return; revealed = true; band.classList.add('copy-in'); }
+
+      if (prefersReduced || !v) {
+        if (v) { try { v.muted = true; v.currentTime = 1e6; } catch (e) {} } // hold the white end frame
+        reveal();
+        return;
+      }
+
+      v.addEventListener('ended', reveal);
+
+      var started = false;
+      function playIt() {
+        if (started) return; started = true;
+        v.muted = true;
+        try { v.currentTime = 0; } catch (e) {}
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {
+          try { v.currentTime = 1e6; } catch (e) {} // autoplay blocked -> jump to end + show copy
+          reveal();
+        });
+        var dur = (v.duration && isFinite(v.duration)) ? v.duration : 5;
+        setTimeout(reveal, dur * 1000 + 1800); // safety net if 'ended' never fires
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) { if (en.isIntersecting) { playIt(); io.disconnect(); } });
+        }, { threshold: 0.4 });
+        io.observe(band);
+      } else { playIt(); }
+    })();
+
+    // Modal system (video reel, extended bios, legal) + cookie consent
+    (function () {
+      var modal = document.getElementById('modal');
+      var content = document.getElementById('modalContent');
+      if (!modal) return;
+      var lastFocus = null, closeTimer = null;
+
+      window.openModal = function (html) {
+        clearTimeout(closeTimer);
+        content.innerHTML = html;
+        content.scrollTop = 0;
+        modal.hidden = false;
+        lastFocus = document.activeElement;
+        document.body.style.overflow = 'hidden';
+        void modal.offsetWidth;
+        modal.classList.add('is-open');
+        var v = content.querySelector('video');
+        if (v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        var cb = modal.querySelector('.modal__close');
+        if (cb) cb.focus();
+      };
+      window.closeModal = function () {
+        if (modal.hidden) return;
+        modal.classList.remove('is-open');
+        var v = content.querySelector('video');
+        if (v) { try { v.pause(); } catch (e) {} }
+        closeTimer = setTimeout(function () {
+          modal.hidden = true; content.innerHTML = '';
+          document.body.style.overflow = '';
+          if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+        }, 440);
+      };
+      modal.addEventListener('click', function (e) { if (e.target.closest('[data-close]')) window.closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) window.closeModal(); });
+
+      var wih = document.getElementById('wihBtn');
+      if (wih) wih.addEventListener('click', function () {
+        window.openModal('<div class="video-m"><video src="assets/wih-reel.mp4" controls autoplay playsinline preload="auto"></video></div>');
+      });
+
+      var LEGAL = {
+        privacy: { title: 'Privacy Policy', updated: 'Last updated: September 2026',
+          body: '<p>Wellthera Integrated Health ("Wellthera", "we", "us") respects your privacy. This policy explains what information we collect through this website and how we use it. Personal health information collected during care is handled separately, in accordance with Ontario\'s Personal Health Information Protection Act (PHIPA).</p>'
+            + '<h4>Information we collect</h4><p>When you use this site we may collect information you provide (such as your name, email or message if you contact us) and technical information collected automatically (such as device, browser and general usage data through cookies and analytics).</p>'
+            + '<h4>How we use it</h4><p>We use this information to respond to enquiries, operate and improve the website, and understand how it is used. Online booking, payments and insurance direct billing are handled by third-party providers (for example ClinicSense) under their own privacy terms.</p>'
+            + '<h4>Cookies</h4><p>We use essential cookies to run the site and, with your consent, analytics cookies to measure usage. You can decline non-essential cookies using the banner or through your browser settings.</p>'
+            + '<h4>Your choices</h4><p>You may request access to, correction of, or deletion of the personal information we hold about you, subject to legal and regulatory requirements. To make a request, contact us at the clinic.</p>'
+            + '<p style="color:var(--ink-60)">This is a general template and should be reviewed by legal counsel before publication.</p>' },
+        terms: { title: 'Terms of Use', updated: 'Last updated: September 2026',
+          body: '<p>By using this website you agree to these terms. The content on this site is provided for general information about Wellthera Integrated Health and its services.</p>'
+            + '<h4>Not medical advice</h4><p>Information on this site is not a substitute for professional assessment, diagnosis or treatment. Always consult a qualified regulated health professional regarding your individual needs. Service availability and practitioner scope are subject to change.</p>'
+            + '<h4>Booking and third parties</h4><p>Appointments are booked through third-party systems, and certain services (including independent partner services) are booked and managed separately. Those services are subject to the applicable provider\'s own terms.</p>'
+            + '<h4>Intellectual property</h4><p>The content, branding and imagery on this site are owned by Wellthera Integrated Health and may not be reproduced without permission.</p>'
+            + '<h4>Limitation & governing law</h4><p>The site is provided "as is" without warranties. To the extent permitted by law, Wellthera is not liable for any loss arising from use of the site. These terms are governed by the laws of the Province of Ontario, Canada.</p>'
+            + '<p style="color:var(--ink-60)">This is a general template and should be reviewed by legal counsel before publication.</p>' },
+        booking: { title: 'Booking Terms', updated: 'Last updated: September 2026',
+          body: '<p>These terms apply to appointments booked with Wellthera Integrated Health.</p>'
+            + '<h4>Cancellations</h4><p>We kindly ask for at least 24 hours\' notice to cancel or reschedule an appointment, so the time can be offered to another patient. Late cancellations or missed appointments may be subject to a fee.</p>'
+            + '<h4>Arrival</h4><p>Please arrive a few minutes early for your first visit to complete intake. Late arrivals may result in a shortened session.</p>'
+            + '<h4>Insurance & direct billing</h4><p>Direct billing is offered for eligible services and providers where your plan allows. Coverage, limits and reimbursement depend on your individual plan; we cannot confirm every policy detail in advance.</p>'
+            + '<h4>Independent partner services</h4><p>Certain services (such as clinical nurse-led injectables) are provided independently and booked, paid and managed through the provider\'s own system, under their own policies.</p>'
+            + '<p style="color:var(--ink-60)">This is a general template and should be reviewed by legal counsel before publication.</p>' }
+      };
+      function openLegal(key) {
+        var lang = window.LANG || 'en';
+        var src = (lang !== 'en' && window.LEGAL_I18N && window.LEGAL_I18N[lang] && window.LEGAL_I18N[lang][key])
+          ? window.LEGAL_I18N[lang][key] : LEGAL[key];
+        if (!src) return;
+        window.openModal('<div class="legal-m"><h3>' + src.title + '</h3><p class="legal-m__upd">' + src.updated + '</p>' + src.body + '</div>');
+      }
+      // Delegated so it keeps working after the cookie text is re-rendered on language switch
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest('[data-legal]');
+        if (!el) return;
+        e.preventDefault();
+        openLegal(el.getAttribute('data-legal'));
+      });
+
+      // Cookie consent
+      var cookie = document.getElementById('cookie');
+      var KEY = 'wellthera_cookie_consent';
+      function decided() { try { return localStorage.getItem(KEY); } catch (e) { return '1'; } }
+      if (cookie && !decided()) {
+        setTimeout(function () { cookie.hidden = false; void cookie.offsetWidth; cookie.classList.add('is-in'); }, 1500);
+        var dismiss = function (val) { try { localStorage.setItem(KEY, val); } catch (e) {} cookie.classList.remove('is-in'); setTimeout(function () { cookie.hidden = true; }, 500); };
+        document.getElementById('cookieAccept').addEventListener('click', function () { dismiss('accepted'); });
+        document.getElementById('cookieDecline').addEventListener('click', function () { dismiss('declined'); });
+      }
+    })();
+
+    // ==================== i18n (EN / FR / PT) ====================
+    // English is the source in the markup; only FR + PT overrides live here.
+    window.I18N = {
+      fr: {
+        'nav.services': 'Services', 'nav.about': 'À propos', 'nav.team': 'Équipe',
+        'nav.testimonials': 'Témoignages', 'nav.faq': 'FAQ', 'nav.visit': 'Nous trouver',
+        'footer.contact': 'Contact',
+        'ui.book': 'Réserver en ligne',
+        'ui.learnmore': "En savoir plus <span aria-hidden='true'>→</span>",
+        'hero.tag': 'Clinique de santé intégrée et de bien-être',
+        'hero.desc': "Des soins réglementés avec la chaleur d'une hospitalité sincère. Massothérapie, drainage lymphatique, acupuncture et psychothérapie, dans un espace calme et accueillant.",
+        'hero.wih': 'WIH par les propriétaires',
+        'hero.headline': 'Des soins modernes.<br>Une expérience élevée.',
+        'feat.title': "Là où les <em>soins</em> réglementés rencontrent une hospitalité exceptionnelle.",
+        'feat.p1': "Nous avons créé Wellthera parce qu'un bon soin et une belle expérience ne devraient jamais être un compromis. Des thérapies réglementées et un bien-être moderne, réunis dans une clinique calme et accueillante.",
+        'feat.p2': "Vous profitez du confort d'un espace haut de gamme, avec la simplicité au quotidien de soins couverts par les assurances et de la facturation directe pour les services admissibles.",
+        'team.title': "Bâtie avec soin, précision et un point de vue <em>clair</em>.",
+        'team.founders': 'Fondateurs', 'team.team': 'Équipe',
+        'billing.title': 'La facturation directe, rendue plus simple',
+        'comp.label': 'Des soins réglementés que vous pouvez vérifier',
+        'comp.note': "Nos praticiens sont inscrits auprès des ordres réglementaires de l'Ontario, notamment le CMTO, le CTCMPAO et le CRPO. L'inscription de chaque praticien peut être vérifiée sur le registre public de l'ordre concerné.",
+        'test.eyebrow': 'Témoignages',
+        'test.tag': "4,6 sur 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
+        'test.title': "Découvrez ce que nos précieux clients <em>disent</em>",
+        'test.more': "Lire plus d'avis sur Google →",
+        'faq.title': "Des réponses claires <em>avant</em> de réserver.",
+        'faq.q1': "Mon traitement est-il couvert par l'assurance ?",
+        'faq.a1': "La couverture dépend de votre régime, de votre assureur, du type de praticien, des plafonds annuels et des exigences de référence. Wellthera n'a pas accès à tous les détails de votre police d'assurance; nous vous recommandons donc de confirmer votre couverture directement auprès de votre assureur.",
+        'faq.q2': 'Offrez-vous la facturation directe ?',
+        'faq.a2': "Oui — nous offrons la facturation directe pour les services admissibles auprès des principaux assureurs, dont Sun Life, Canada Life et Manuvie, lorsque votre régime le permet.",
+        'faq.q3': 'Ai-je besoin d’une référence médicale ?',
+        'faq.a3': "La plupart de nos services ne nécessitent pas de référence. Certains régimes d'assurance peuvent toutefois en exiger une pour le remboursement — veuillez vérifier auprès de votre assureur.",
+        'faq.q4': 'Puis-je choisir mon praticien ?',
+        'faq.a4': "Absolument. Vous pouvez réserver avec le praticien de votre choix, selon les disponibilités.",
+        'faq.q5': 'Y a-t-il du stationnement ?',
+        'faq.a5': "Oui, un stationnement gratuit sur place est offert à tous les patients à notre emplacement de Big Bay Point Road.",
+        'faq.q6': "Quelle est votre politique d'annulation ?",
+        'faq.a6': "Nous vous demandons un préavis d'au moins 24 heures pour annuler ou reporter un rendez-vous, afin que nous puissions offrir la plage horaire à un autre patient.",
+        'cta.title': "Des soins de santé <em>intégrés</em> haut de gamme à Barrie, au service d'Innisfil et du comté de Simcoe.",
+        'cta.sub': "Réservez chez Wellthera Integrated Health et vivez des soins réglementés, un bien-être moderne et une hospitalité sincère, dans une seule clinique à Barrie.",
+        'visit.title': "Venez nous voir à <em>Barrie</em>.",
+        'visit.hours': "Lundi–jeudi : 9 h–20 h<br>Vendredi : 9 h–17 h<br>Samedi : 9 h–15 h",
+        'visit.dir': "Obtenir l'itinéraire →",
+        'footer.hours': "<b>Lundi–jeudi :</b><br>9 h–20 h<br><b>Vendredi :</b><br>9 h–17 h<br><b>Samedi :</b><br>9 h–15 h",
+        'footer.privacy': 'Politique de confidentialité',
+        'footer.terms': "Conditions d'utilisation",
+        'footer.booking': 'Conditions de réservation',
+        'cookie.text': "Nous utilisons des témoins pour faire fonctionner ce site et comprendre son utilisation. Consultez notre <button type='button' class='cookie__link' data-legal='privacy'>politique de confidentialité</button>.",
+        'cookie.decline': 'Refuser', 'cookie.accept': 'Accepter',
+        'svc.01.t': 'Massothérapie autorisée',
+        'svc.01.d': "Une thérapie manuelle adaptée à votre corps, vos objectifs et votre historique, pour la tension, la récupération, la mobilité et le stress du quotidien.",
+        'svc.01.subs': "<span class='svc__sub'>Massage thérapeutique</span><span class='svc__sub'>Massage des tissus profonds</span><span class='svc__sub'>Relâchement myofascial</span><span class='svc__sub'>Massage sportif</span><span class='svc__sub'>Massage prénatal</span><span class='svc__sub'>Massage pédiatrique</span><span class='svc__sub'>Massage Indie Head</span><span class='svc__sub'>Massothérapie ATM</span><span class='svc__sub'>Ventouses (cupping)</span>",
+        'svc.02.t': 'Drainage lymphatique manuel',
+        'svc.02.d': "Une technique douce et rythmée qui soutient votre système lymphatique et aide votre corps à récupérer.",
+        'svc.02.subs': "<span class='svc__sub'>Drainage lymphatique manuel</span>",
+        'svc.03.t': 'Acupuncture',
+        'svc.03.d': "Une thérapie par fines aiguilles pour apaiser la tension, favoriser la récupération et vous aider à retrouver l'équilibre.",
+        'svc.03.subs': "<span class='svc__sub'>Acupuncture</span><span class='svc__sub'>Acupuncture faciale</span>",
+        'svc.04.t': 'Psychothérapie',
+        'svc.04.d': "Un espace calme et confidentiel pour parler de ce qui compte et vous sentir davantage vous-même.",
+        'svc.04.subs': "<span class='svc__sub'>Psychothérapie</span><span class='svc__sub'>Consultation de compatibilité gratuite</span>",
+        'svc.05.t': 'Injectables cliniques dirigés par une infirmière',
+        'svc.05.d': "Des injectables dirigés par une infirmière autorisée, offerts dans le cadre d'un partenariat indépendant au sein de la clinique. Des traitements esthétiques réalisés en toute sécurité, avec un résultat naturel et rafraîchi en tête.",
+        'svc.05.subs': "<span class='svc__sub'>Botox</span><span class='svc__sub'>Agents de comblement dermique</span><span class='svc__sub'>Lip flip</span><span class='svc__sub'>Skin boosters</span><span class='svc__sub'>Microneedling</span><span class='svc__sub'>Sculptra</span><span class='svc__sub'>PRP pour le visage</span><span class='svc__sub'>PRP pour le cuir chevelu</span>",
+        'rev.clinic-08.meta': 'il y a 4 mois',
+        'rev.clinic-08.text': "«Dès que je suis entrée, j'ai commencé à me sentir bien. L'ambiance est si accueillante, et tout le monde s'est assuré de mon confort avant tout. Camila était incroyablement professionnelle et a fait un travail remarquable. C'était le meilleur massage que j'aie jamais reçu, et je reviendrai aussi souvent que possible.»",
+        'rev.clinic-11.meta': 'Guide local · il y a un an',
+        'rev.clinic-11.text': "«Wellthera offre un magnifique mélange de spa, d'élégance, de chaleur et de confort. Camila m'a donné un massage fantastique et a évalué toutes les zones difficiles, offrant une détente totale et un soulagement des tensions. De l'accueil jusqu'à la fin, un haut niveau de professionnalisme et de simplicité.»",
+        'rev.clinic-06.meta': 'il y a 4 mois',
+        'rev.clinic-06.text': "«Wellthera respire la paix et la détente dès que l'on franchit la porte. Camila est une personne si attentionnée et une massothérapeute très compétente. J'arrive à me détendre complètement, car je me sens toujours entre de bonnes mains. J'attends chaque rendez-vous comme un véritable cadeau!»",
+        'rev.clinic-20.meta': 'Guide local · il y a 4 mois',
+        'rev.clinic-20.text': "«Je viens ici depuis un an et c'est toujours excellent. Camila est attentive et posée, et on sent qu'elle vous porte une véritable attention. Cela se reflète dans toute l'équipe. C'est calme, sans prétention, et tout le monde s'en soucie vraiment. Je suis vraiment contente d'avoir trouvé cet endroit.»",
+        'p.team-camila.role': 'Fondatrice · Massothérapeute autorisée',
+        'p.team-camila.bio': "Née et élevée au Brésil, Camila apporte chaleur, soins cliniques et un fort engagement envers le confort des patients à chaque rendez-vous.",
+        'p.team-camila.lang': 'Anglais · Portugais',
+        'p.team-camila.tag': 'Fondatrice',
+        'p.team-camila.ext': ["Camila Dos Santos est la fondatrice de Wellthera Integrated Health et une massothérapeute autorisée, diplômée avec distinction du Georgian College. Née et élevée au Brésil, elle apporte une approche chaleureuse et attentive aux soins et a joué un rôle central dans la création de l'expérience patient axée sur l'hospitalité de Wellthera.", "Elle a une passion particulière pour le drainage lymphatique manuel et offre le traitement signature de Wellthera intégrant les techniques du protocole brésilien. Camila propose également des massages thérapeutiques, prénatals et pédiatriques (de 4 à 12 ans) ainsi que le massage Indie Head, adaptant chaque rendez-vous à l'historique de santé, au confort et aux objectifs du client.", "Elle offre des soins en anglais et en portugais. En dehors de la clinique, Camila aime passer du temps avec sa famille, profiter du plein air et prendre soin de ses animaux."],
+        'p.team-samuel.role': 'Cofondateur | Directeur général',
+        'p.team-samuel.bio': "Fort de son expérience en aviation et en affaires, Samuel met l'accent sur la précision, des systèmes fiables et une culture centrée sur le client.",
+        'p.team-samuel.lang': 'Anglais · Portugais',
+        'p.team-samuel.tag': 'Cofondateur · Directeur général',
+        'p.team-samuel.ext': ["Samuel Dos Santos est le cofondateur de Wellthera Integrated Health. Son parcours en aviation et en affaires apporte un fort accent sur la précision, des systèmes fiables et une culture centrée sur le client.", "En coulisses, Samuel contribue à définir les normes opérationnelles et d'hospitalité qui rendent chaque visite chez Wellthera calme, réfléchie et accueillante."],
+        'p.team-jaime.role': 'Gestionnaire de la clinique',
+        'p.team-jaime.bio': "Jaime dirige les opérations quotidiennes de Wellthera, veillant à ce que chaque visite reste calme, organisée et accueillante, de la réservation à la réception.",
+        'p.team-jaime.lang': 'Anglais',
+        'p.team-jaime.tag': 'Gestionnaire',
+        'p.team-jaime.ext': ["Jaime Belisle est la gestionnaire de la clinique Wellthera. Elle dirige les opérations quotidiennes de la clinique, veillant à ce que chaque visite reste calme, organisée et accueillante, de la première réservation jusqu'à la réception.", "De la coordination des rendez-vous au soin des petits détails de l'espace, Jaime s'assure que les patients et les praticiens sont bien pris en charge à chaque étape."],
+        'p.team-rachel.role': 'Massothérapeute autorisée',
+        'p.team-rachel.bio': "Rachel offre une massothérapie centrée sur le patient, adaptant chaque traitement pour que les clients se sentent à l'aise, écoutés et impliqués dans leurs soins.",
+        'p.team-rachel.lang': 'Anglais',
+        'p.team-rachel.ext': ["Rachel Wallace est une massothérapeute autorisée et diplômée du programme de massothérapie du Oxford College. Elle détient également un baccalauréat ès arts en études de la santé.", "Rachel adopte une approche centrée sur le patient, adaptant chaque rendez-vous à l'historique de santé, au confort, aux objectifs et à la réponse au traitement du client. Ses traitements peuvent intégrer le massage suédois, les tissus profonds, les techniques myofasciales et de points gâchettes, les étirements et les ventouses au besoin.", "Elle offre des massages thérapeutiques, prénatals et pédiatriques, le massage Indie Head et le drainage lymphatique manuel. En dehors de la clinique, elle aime lire, s'entraîner et suivre le sport."],
+        'p.team-yuki.role': 'Massothérapeute autorisée',
+        'p.team-yuki.bio': "Yuki propose une massothérapie personnalisée avec une approche calme et bienveillante, adaptant chaque traitement au mode de vie et aux objectifs du client.",
+        'p.team-yuki.lang': 'Anglais · Japonais',
+        'p.team-yuki.ext': ["Yuki Hamada est une massothérapeute autorisée, diplômée avec distinction du Georgian College.", "Elle offre des massages thérapeutiques, prénatals et postnatals, des massages pédiatriques (de 4 à 12 ans), le drainage lymphatique manuel intégrant les techniques du protocole brésilien, et des massages ciblant l'ATM, la mâchoire et les tensions faciales. Yuki prend le temps de comprendre les préoccupations, les habitudes et les objectifs de chaque client, et valorise une communication claire pour que les clients se sentent à l'aise et informés.", "Elle offre des soins en anglais et en japonais."],
+        'p.team-liz.role': 'Massothérapeute autorisée',
+        'p.team-liz.bio': "Liz combine son expérience de pharmacienne au Brésil avec une massothérapie personnalisée et manuelle, dans une approche calme et individualisée.",
+        'p.team-liz.lang': 'Anglais · Portugais',
+        'p.team-liz.ext': ["Elizabeth «Liz» Cerato est une massothérapeute autorisée, diplômée avec distinction du programme de massothérapie du Oxford College en 2023.", "Avant de devenir massothérapeute, Liz a travaillé comme pharmacienne au Brésil pendant 15 ans. Cette expérience a approfondi sa compréhension de la santé, de l'anatomie, de la physiologie et de l'importance de soins sécuritaires et individualisés.", "Elle offre des massages thérapeutiques, prénatals et pédiatriques ainsi que le drainage lymphatique manuel, et est passionnée par les soins manuels qui favorisent le confort, la détente et la récupération. Liz offre des soins en anglais et en portugais."],
+        'p.team-thaisa.role': 'Massothérapeute autorisée',
+        'p.team-thaisa.bio': "La formation en physiothérapie de Thaisa au Brésil nourrit sa compréhension de la posture, du mouvement et de la mobilité fonctionnelle dans son travail de massothérapeute.",
+        'p.team-thaisa.lang': 'Anglais · Portugais',
+        'p.team-thaisa.ext': ["Thaisa Sakima est une massothérapeute autorisée, diplômée avec distinction du Georgian College. Avant de devenir massothérapeute en Ontario, elle s'est formée et a exercé comme physiothérapeute au Brésil.", "Sa formation en physiothérapie nourrit sa compréhension du mouvement, de la posture et de la mobilité fonctionnelle, et elle a suivi une formation en Pilates qui a approfondi sa compréhension du travail du tronc. Tous les traitements sont offerts dans le cadre de son champ de pratique actuel de massothérapeute.", "Son approche est individualisée et pratique, tenant compte de l'historique, des schémas de mouvement, du confort et des objectifs de chaque client. Elle offre des soins en anglais et en portugais."],
+        'p.team-kiana.role': 'Acupunctrice autorisée',
+        'p.team-kiana.bio': "Kiana offre une acupuncture individualisée dans un cadre calme et bienveillant, construisant chaque plan autour de l'historique, du confort et des objectifs du client.",
+        'p.team-kiana.lang': 'Anglais',
+        'p.team-kiana.tag': 'Acupunctrice',
+        'p.team-kiana.ext': ["Kiana Forder est une acupunctrice autorisée et diplômée du Georgian College. Elle croit qu'un soin efficace commence par l'écoute.", "Les clients consultent Kiana en acupuncture pour la douleur aiguë ou chronique, les tensions musculaires, les inconforts d'origine nerveuse, les tensions physiques, le stress et le bien-être général. Elle offre aussi l'acupuncture faciale pour les tensions du visage et de la mâchoire, la détente et une apparence naturellement rafraîchie.", "Elle souhaite rendre l'acupuncture accessible et confortable, en particulier pour les personnes qui la découvrent. Kiana offre des soins en anglais."],
+        'p.team-giovanna.role': 'Psychothérapeute autorisée (en voie de qualification)',
+        'p.team-giovanna.bio': "Giovanna offre une psychothérapie en personne pour adultes, créant un espace chaleureux et inclusif pour explorer l'anxiété, le deuil, les relations, l'identité et les transitions de vie.",
+        'p.team-giovanna.lang': 'Anglais · Portugais',
+        'p.team-giovanna.tag': 'Psychothérapeute',
+        'p.team-giovanna.ext': ["Giovanna Faedo est psychothérapeute autorisée (en voie de qualification) et offre une psychothérapie individuelle, en personne, pour adultes, en anglais et en portugais.", "Elle crée un espace chaleureux, bienveillant et sans jugement, accompagnant les adultes aux prises avec l'anxiété, la dépression, les traumatismes, le deuil, les transitions de vie, les relations, l'identité, la maternité et les transitions culturelles. Son approche s'inspire des thérapies psychodynamique, relationnelle, axée sur l'attachement et centrée sur la personne, dans une perspective anti-oppressive et culturellement adaptée.", "Avant la psychothérapie, Giovanna a travaillé dans les services sociaux auprès d'immigrants et de réfugiés, et sa carrière antérieure en droit a façonné sa compréhension de la façon dont les gens réagissent au changement et à l'incertitude. Elle offre une consultation de compatibilité gratuite."],
+        'p.team-elise.role': 'Infirmière autorisée · Injectrice esthétique',
+        'p.team-elise.bio': "Elise est infirmière autorisée et injectrice esthétique; son approche met l'accent sur des décisions éclairées et des résultats d'apparence naturelle.",
+        'p.team-elise.lang': 'Anglais · Portugais',
+        'p.team-elise.tag': 'Partenariat',
+        'p.team-elise.ext': ["Elise K. Papa est infirmière autorisée en Ontario et injectrice esthétique; son approche met l'accent sur des décisions éclairées et des résultats d'apparence naturelle.", "Ses injectables cliniques sont offerts dans le cadre d'un partenariat indépendant au sein de l'espace Wellthera. Elle offre d'abord des consultations et des traitements de Botox, d'autres services esthétiques suivront.", "Les réservations pour les services d'Elise sont gérées de façon indépendante au moyen de son propre système de réservation."]
+      },
+      pt: {
+        'nav.services': 'Serviços', 'nav.about': 'Sobre', 'nav.team': 'Equipe',
+        'nav.testimonials': 'Depoimentos', 'nav.faq': 'Dúvidas', 'nav.visit': 'Visite-nos',
+        'footer.contact': 'Contato',
+        'ui.book': 'Agendar Online',
+        'ui.learnmore': "Saiba mais <span aria-hidden='true'>→</span>",
+        'hero.tag': 'Clínica de Saúde Integrada e Bem-Estar',
+        'hero.desc': "Cuidado regulamentado com o acolhimento de uma hospitalidade genuína. Massoterapia, drenagem linfática, acupuntura e psicoterapia, em um espaço calmo e acolhedor.",
+        'hero.wih': 'WIH pelos proprietários',
+        'hero.headline': 'Saúde moderna.<br>Uma experiência elevada.',
+        'feat.title': "Onde a <em>saúde</em> regulamentada encontra uma hospitalidade excepcional.",
+        'feat.p1': "Criamos a Wellthera porque um bom cuidado e uma boa experiência nunca deveriam ser um dilema. Terapias regulamentadas e bem-estar moderno, reunidos em uma clínica calma e acolhedora.",
+        'feat.p2': "Você tem o conforto de um espaço premium, com a praticidade do dia a dia de cuidados cobertos por seguro e faturamento direto para serviços elegíveis.",
+        'team.title': "Construída com cuidado, precisão e um ponto de vista <em>claro</em>.",
+        'team.founders': 'Fundadores', 'team.team': 'Equipe',
+        'billing.title': 'Faturamento direto, muito mais prático',
+        'comp.label': 'Cuidado regulamentado que você pode verificar',
+        'comp.note': "Nossos profissionais são registrados nos órgãos reguladores de Ontário, incluindo CMTO, CTCMPAO e CRPO. O registro de cada profissional pode ser verificado no registro público do respectivo órgão.",
+        'test.eyebrow': 'Depoimentos',
+        'test.tag': "4,6 de 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
+        'test.title': "Veja o que nossos queridos clientes estão <em>dizendo</em>",
+        'test.more': "Ler mais avaliações no Google →",
+        'faq.title': "Respostas claras <em>antes</em> de agendar.",
+        'faq.q1': 'Meu tratamento é coberto pelo seguro?',
+        'faq.a1': "A cobertura depende do seu plano, da seguradora, do tipo de profissional, dos limites anuais e de eventuais exigências de encaminhamento. A Wellthera não tem acesso a todos os detalhes da sua apólice, por isso recomendamos confirmar a cobertura diretamente com a sua seguradora.",
+        'faq.q2': 'Vocês oferecem faturamento direto?',
+        'faq.a2': "Sim — oferecemos faturamento direto para serviços elegíveis junto às principais seguradoras, incluindo Sun Life, Canada Life e Manulife, quando o seu plano permite.",
+        'faq.q3': 'Preciso de encaminhamento médico?',
+        'faq.a3': "A maioria dos nossos serviços não exige encaminhamento. Alguns planos de seguro, porém, podem solicitá-lo para reembolso — verifique com a sua seguradora.",
+        'faq.q4': 'Posso escolher meu profissional?',
+        'faq.a4': "Com certeza. Você pode agendar com o profissional de sua preferência, conforme a disponibilidade.",
+        'faq.q5': 'Há estacionamento disponível?',
+        'faq.a5': "Sim, oferecemos estacionamento gratuito no local para todos os pacientes, em nosso endereço na Big Bay Point Road.",
+        'faq.q6': 'Qual é a política de cancelamento?',
+        'faq.a6': "Pedimos, gentilmente, um aviso de no mínimo 24 horas para cancelar ou remarcar um agendamento, para que possamos oferecer o horário a outro paciente.",
+        'cta.title': "Saúde <em>integrada</em> premium em Barrie, atendendo Innisfil e a região de Simcoe.",
+        'cta.sub': "Agende na Wellthera Integrated Health e viva cuidado regulamentado, bem-estar moderno e hospitalidade genuína em uma única clínica em Barrie.",
+        'visit.title': "Venha nos visitar em <em>Barrie</em>.",
+        'visit.hours': "Segunda a quinta: 9h–20h<br>Sexta: 9h–17h<br>Sábado: 9h–15h",
+        'visit.dir': "Como chegar →",
+        'footer.hours': "<b>Segunda a quinta:</b><br>9h–20h<br><b>Sexta:</b><br>9h–17h<br><b>Sábado:</b><br>9h–15h",
+        'footer.privacy': 'Política de Privacidade',
+        'footer.terms': 'Termos de Uso',
+        'footer.booking': 'Termos de Agendamento',
+        'cookie.text': "Usamos cookies para operar este site e entender como ele é utilizado. Leia nossa <button type='button' class='cookie__link' data-legal='privacy'>Política de Privacidade</button>.",
+        'cookie.decline': 'Recusar', 'cookie.accept': 'Aceitar',
+        'svc.01.t': 'Massoterapia Registrada',
+        'svc.01.d': "Terapia manual adaptada ao seu corpo, aos seus objetivos e ao seu histórico, para tensão, recuperação, mobilidade e o estresse do dia a dia.",
+        'svc.01.subs': "<span class='svc__sub'>Massagem terapêutica</span><span class='svc__sub'>Massagem de tecidos profundos</span><span class='svc__sub'>Liberação miofascial</span><span class='svc__sub'>Massagem esportiva</span><span class='svc__sub'>Massagem pré-natal</span><span class='svc__sub'>Massagem pediátrica</span><span class='svc__sub'>Indie Head Massage</span><span class='svc__sub'>Massoterapia para ATM</span><span class='svc__sub'>Ventosaterapia</span>",
+        'svc.02.t': 'Drenagem Linfática Manual',
+        'svc.02.d': "Uma técnica suave e rítmica que estimula o sistema linfático e ajuda o corpo a se recuperar.",
+        'svc.02.subs': "<span class='svc__sub'>Drenagem Linfática Manual</span>",
+        'svc.03.t': 'Acupuntura',
+        'svc.03.d': "Terapia com agulhas finas para aliviar a tensão, apoiar a recuperação e ajudar você a se sentir em equilíbrio.",
+        'svc.03.subs': "<span class='svc__sub'>Acupuntura</span><span class='svc__sub'>Acupuntura facial</span>",
+        'svc.04.t': 'Psicoterapia',
+        'svc.04.d': "Um espaço calmo e confidencial para conversar sobre o que importa e se sentir mais você mesmo.",
+        'svc.04.subs': "<span class='svc__sub'>Psicoterapia</span><span class='svc__sub'>Consulta inicial de compatibilidade gratuita</span>",
+        'svc.05.t': 'Injetáveis Clínicos Conduzidos por Enfermeira',
+        'svc.05.d': "Injetáveis conduzidos por enfermeira registrada, oferecidos como uma parceria independente dentro da clínica. Tratamentos estéticos realizados com segurança, buscando um resultado natural e renovado.",
+        'svc.05.subs': "<span class='svc__sub'>Botox</span><span class='svc__sub'>Preenchedores dérmicos</span><span class='svc__sub'>Lip flip</span><span class='svc__sub'>Skin boosters</span><span class='svc__sub'>Microagulhamento</span><span class='svc__sub'>Sculptra</span><span class='svc__sub'>PRP facial</span><span class='svc__sub'>PRP capilar</span>",
+        'rev.clinic-08.meta': 'há 4 meses',
+        'rev.clinic-08.text': "“Assim que entrei, já comecei a me sentir bem. O ambiente é super acolhedor, e todos se certificaram de que eu estava confortável antes de tudo. Camila foi incrivelmente profissional e fez um trabalho maravilhoso. Foi a melhor massagem que já recebi, e vou voltar sempre que puder.”",
+        'rev.clinic-11.meta': 'Guia local · há um ano',
+        'rev.clinic-11.text': "“A Wellthera tem uma bela combinação de spa, elegância, aconchego e conforto. Camila me deu uma massagem fantástica e avaliou todas as áreas mais difíceis, proporcionando total relaxamento e alívio das tensões. Da recepção ao fim, um alto nível de profissionalismo e leveza.”",
+        'rev.clinic-06.meta': 'há 4 meses',
+        'rev.clinic-06.text': "“A Wellthera transmite paz e relaxamento no instante em que você entra pela porta. Camila é uma pessoa muito cuidadosa e uma massoterapeuta altamente competente. Consigo relaxar completamente, pois sempre sinto que estou em boas mãos. Aguardo cada sessão como o melhor dos presentes!”",
+        'rev.clinic-20.meta': 'Guia local · há 4 meses',
+        'rev.clinic-20.text': "“Venho aqui há um ano e tem sido sempre ótimo. Camila é atenciosa e tranquila, e dá para perceber que ela realmente presta atenção em você. Isso se estende a toda a equipe. É calmo, sem frescura, e todos se importam de verdade. Fico muito feliz por ter encontrado este lugar.”",
+        'p.team-camila.role': 'Fundadora · Massoterapeuta Registrada',
+        'p.team-camila.bio': "Nascida e criada no Brasil, Camila traz acolhimento, cuidado clínico e um forte compromisso com o conforto do paciente a cada atendimento.",
+        'p.team-camila.lang': 'Inglês · Português',
+        'p.team-camila.tag': 'Fundadora',
+        'p.team-camila.ext': ["Camila Dos Santos é a fundadora da Wellthera Integrated Health e Massoterapeuta Registrada, formada com honras pelo Georgian College. Nascida e criada no Brasil, ela traz uma abordagem calorosa e atenciosa ao cuidado e teve papel central na construção da experiência do paciente da Wellthera, guiada pela hospitalidade.", "Ela tem uma paixão especial pela Drenagem Linfática Manual e realiza o tratamento exclusivo da Wellthera, que incorpora técnicas do Protocolo Brasileiro. Camila também oferece massagem terapêutica, pré-natal e pediátrica (de 4 a 12 anos) e Indie Head Massage, adaptando cada atendimento ao histórico de saúde, ao conforto e aos objetivos do cliente.", "Ela atende em inglês e português. Fora da clínica, Camila gosta de passar tempo com a família, estar ao ar livre e cuidar de seus pets."],
+        'p.team-samuel.role': 'Cofundador | Diretor-Geral',
+        'p.team-samuel.bio': "Com formação em aviação e negócios, Samuel traz foco em precisão, sistemas confiáveis e uma cultura centrada no cliente.",
+        'p.team-samuel.lang': 'Inglês · Português',
+        'p.team-samuel.tag': 'Cofundador · Diretor-Geral',
+        'p.team-samuel.ext': ["Samuel Dos Santos é o cofundador da Wellthera Integrated Health. Sua trajetória na aviação e nos negócios traz um forte foco em precisão, sistemas confiáveis e uma cultura centrada no cliente.", "Nos bastidores, Samuel ajuda a definir os padrões operacionais e de hospitalidade que fazem cada visita à Wellthera ser calma, cuidadosa e acolhedora."],
+        'p.team-jaime.role': 'Gerente da Clínica',
+        'p.team-jaime.bio': "Jaime lidera as operações do dia a dia da Wellthera, mantendo cada visita calma, organizada e acolhedora, do agendamento à recepção.",
+        'p.team-jaime.lang': 'Inglês',
+        'p.team-jaime.tag': 'Gerente',
+        'p.team-jaime.ext': ["Jaime Belisle é a Gerente da Clínica Wellthera. Ela lidera as operações do dia a dia, mantendo cada visita calma, organizada e acolhedora, do primeiro agendamento até a recepção.", "Da coordenação dos agendamentos ao cuidado com os pequenos detalhes do espaço, Jaime garante que pacientes e profissionais sejam bem cuidados em cada etapa."],
+        'p.team-rachel.role': 'Massoterapeuta Registrada',
+        'p.team-rachel.bio': "Rachel oferece massoterapia centrada no paciente, adaptando cada tratamento para que os clientes se sintam confortáveis, ouvidos e envolvidos no próprio cuidado.",
+        'p.team-rachel.lang': 'Inglês',
+        'p.team-rachel.ext': ["Rachel Wallace é Massoterapeuta Registrada e formada no programa de Massoterapia do Oxford College. Ela também possui bacharelado em Estudos da Saúde.", "Rachel adota uma abordagem centrada no paciente, adaptando cada atendimento ao histórico de saúde, ao conforto, aos objetivos e à resposta ao tratamento do cliente. Seus tratamentos podem incorporar massagem sueca, tecidos profundos, técnicas miofasciais e de pontos-gatilho, alongamentos e ventosas quando adequado.", "Ela oferece massagem terapêutica, pré-natal e pediátrica, Indie Head Massage e Drenagem Linfática Manual. Fora da clínica, gosta de ler, treinar e acompanhar esportes."],
+        'p.team-yuki.role': 'Massoterapeuta Registrada',
+        'p.team-yuki.bio': "Yuki oferece massoterapia personalizada com uma abordagem calma e acolhedora, adaptando cada tratamento ao estilo de vida e aos objetivos do cliente.",
+        'p.team-yuki.lang': 'Inglês · Japonês',
+        'p.team-yuki.ext': ["Yuki Hamada é Massoterapeuta Registrada, formada com honras pelo Georgian College.", "Ela oferece massagem terapêutica, pré-natal e pós-natal, massagem pediátrica (de 4 a 12 anos), Drenagem Linfática Manual com técnicas do Protocolo Brasileiro e massagem focada em ATM, mandíbula e tensão facial. Yuki dedica tempo para entender as necessidades, as rotinas e os objetivos de cada cliente, e valoriza uma comunicação clara para que se sintam confortáveis e bem informados.", "Ela atende em inglês e japonês."],
+        'p.team-liz.role': 'Massoterapeuta Registrada',
+        'p.team-liz.bio': "Liz une sua experiência como farmacêutica no Brasil a uma massoterapia personalizada e manual, com uma abordagem calma e individualizada.",
+        'p.team-liz.lang': 'Inglês · Português',
+        'p.team-liz.ext': ["Elizabeth “Liz” Cerato é Massoterapeuta Registrada, formada com honras no programa de Massoterapia do Oxford College em 2023.", "Antes de se tornar massoterapeuta, Liz trabalhou como farmacêutica no Brasil por 15 anos. Essa experiência aprofundou sua compreensão sobre saúde, anatomia, fisiologia e a importância de um cuidado seguro e individualizado.", "Ela oferece massagem terapêutica, pré-natal e pediátrica e Drenagem Linfática Manual, e é apaixonada pelo cuidado manual que promove conforto, relaxamento e recuperação. Liz atende em inglês e português."],
+        'p.team-thaisa.role': 'Massoterapeuta Registrada',
+        'p.team-thaisa.bio': "A formação em fisioterapia de Thaisa no Brasil embasa sua compreensão de postura, movimento e mobilidade funcional em seu trabalho como massoterapeuta.",
+        'p.team-thaisa.lang': 'Inglês · Português',
+        'p.team-thaisa.ext': ["Thaisa Sakima é Massoterapeuta Registrada, formada com honras pelo Georgian College. Antes de se tornar massoterapeuta em Ontário, formou-se e atuou como fisioterapeuta no Brasil.", "Sua formação em fisioterapia embasa sua compreensão de movimento, postura e mobilidade funcional, e ela concluiu cursos de Pilates que ampliaram seu entendimento sobre a função do core. Todos os tratamentos são realizados dentro do seu escopo atual como massoterapeuta.", "Sua abordagem é individualizada e prática, considerando o histórico, os padrões de movimento, o conforto e os objetivos de cada cliente. Ela atende em inglês e português."],
+        'p.team-kiana.role': 'Acupunturista Registrada',
+        'p.team-kiana.bio': "Kiana oferece acupuntura individualizada em um ambiente calmo e acolhedor, moldando cada plano ao histórico, ao conforto e aos objetivos do cliente.",
+        'p.team-kiana.lang': 'Inglês',
+        'p.team-kiana.tag': 'Acupunturista',
+        'p.team-kiana.ext': ["Kiana Forder é Acupunturista Registrada e formada pelo Georgian College. Ela acredita que um cuidado eficaz começa pela escuta.", "Os clientes procuram a acupuntura com Kiana para dores agudas ou crônicas, tensão muscular, desconfortos de origem nervosa, sobrecarga física, estresse e bem-estar geral. Ela também oferece acupuntura facial para tensão no rosto e na mandíbula, relaxamento e uma aparência naturalmente renovada.", "Ela busca tornar a acupuntura acessível e confortável, especialmente para quem está fazendo o tratamento pela primeira vez. Kiana atende em inglês."],
+        'p.team-giovanna.role': 'Psicoterapeuta Registrada (Qualificação)',
+        'p.team-giovanna.bio': "Giovanna oferece psicoterapia presencial para adultos, criando um espaço acolhedor e inclusivo para explorar ansiedade, luto, relacionamentos, identidade e transições de vida.",
+        'p.team-giovanna.lang': 'Inglês · Português',
+        'p.team-giovanna.tag': 'Psicoterapeuta',
+        'p.team-giovanna.ext': ["Giovanna Faedo é Psicoterapeuta Registrada (Qualificação) e oferece psicoterapia individual e presencial para adultos, em inglês e português.", "Ela cria um espaço acolhedor, apoiador e sem julgamentos, apoiando adultos que lidam com ansiedade, depressão, trauma, luto, transições de vida, relacionamentos, identidade, maternidade e transições culturais. Sua abordagem se baseia nas terapias psicodinâmica, relacional, centrada no apego e centrada na pessoa, com um olhar antiopressivo e culturalmente sensível.", "Antes da psicoterapia, Giovanna atuou em serviços sociais apoiando imigrantes e refugiados, e sua carreira anterior no direito moldou sua compreensão sobre como as pessoas respondem à mudança e à incerteza. Ela oferece uma consulta inicial de compatibilidade gratuita."],
+        'p.team-elise.role': 'Enfermeira Registrada · Injetora Estética',
+        'p.team-elise.bio': "Elise é Enfermeira Registrada e injetora estética, com uma abordagem que valoriza decisões conscientes e resultados de aparência natural.",
+        'p.team-elise.lang': 'Inglês · Português',
+        'p.team-elise.tag': 'Parceria',
+        'p.team-elise.ext': ["Elise K. Papa é Enfermeira Registrada em Ontário e injetora estética, com uma abordagem que valoriza decisões conscientes e resultados de aparência natural.", "Seus injetáveis clínicos são oferecidos como uma parceria independente dentro do espaço da Wellthera. Ela oferece inicialmente consultas e tratamentos de Botox, com outros serviços estéticos a seguir.", "Os agendamentos dos serviços da Elise são gerenciados de forma independente, pelo sistema de agendamento dela."]
+      }
+    };
+
+    // Legal documents in FR + PT (EN lives in the LEGAL object above)
+    window.LEGAL_I18N = {
+      fr: {
+        privacy: { title: 'Politique de confidentialité', updated: 'Dernière mise à jour : septembre 2026',
+          body: "<p>Wellthera Integrated Health («Wellthera», «nous») respecte votre vie privée. Cette politique explique quels renseignements nous recueillons par l'intermédiaire de ce site Web et comment nous les utilisons. Les renseignements personnels sur la santé recueillis pendant les soins sont traités séparément, conformément à la Loi sur la protection des renseignements personnels sur la santé de l'Ontario (LPRPS).</p>"
+            + "<h4>Renseignements que nous recueillons</h4><p>Lorsque vous utilisez ce site, nous pouvons recueillir les renseignements que vous fournissez (comme votre nom, votre courriel ou votre message si vous nous contactez) et des renseignements techniques recueillis automatiquement (comme l'appareil, le navigateur et des données d'utilisation générales au moyen de témoins et d'outils d'analyse).</p>"
+            + "<h4>Comment nous les utilisons</h4><p>Nous utilisons ces renseignements pour répondre aux demandes, exploiter et améliorer le site Web, et comprendre son utilisation. La réservation en ligne, les paiements et la facturation directe aux assurances sont gérés par des fournisseurs tiers (par exemple ClinicSense), selon leurs propres conditions de confidentialité.</p>"
+            + "<h4>Témoins</h4><p>Nous utilisons des témoins essentiels pour faire fonctionner le site et, avec votre consentement, des témoins d'analyse pour mesurer l'utilisation. Vous pouvez refuser les témoins non essentiels au moyen de la bannière ou des paramètres de votre navigateur.</p>"
+            + "<h4>Vos choix</h4><p>Vous pouvez demander l'accès, la correction ou la suppression des renseignements personnels que nous détenons à votre sujet, sous réserve des exigences légales et réglementaires. Pour faire une demande, communiquez avec nous à la clinique.</p>"
+            + "<p style='color:var(--ink-60)'>Ceci est un modèle général qui devrait être révisé par un conseiller juridique avant sa publication.</p>" },
+        terms: { title: "Conditions d'utilisation", updated: 'Dernière mise à jour : septembre 2026',
+          body: "<p>En utilisant ce site Web, vous acceptez ces conditions. Le contenu de ce site est fourni à titre d'information générale sur Wellthera Integrated Health et ses services.</p>"
+            + "<h4>Pas un avis médical</h4><p>Les renseignements de ce site ne remplacent pas une évaluation, un diagnostic ou un traitement professionnel. Consultez toujours un professionnel de la santé réglementé et qualifié pour vos besoins particuliers. La disponibilité des services et le champ de pratique des praticiens peuvent changer.</p>"
+            + "<h4>Réservation et tiers</h4><p>Les rendez-vous sont réservés au moyen de systèmes tiers, et certains services (y compris les services de partenaires indépendants) sont réservés et gérés séparément. Ces services sont assujettis aux conditions propres au fournisseur concerné.</p>"
+            + "<h4>Propriété intellectuelle</h4><p>Le contenu, la marque et les images de ce site appartiennent à Wellthera Integrated Health et ne peuvent être reproduits sans autorisation.</p>"
+            + "<h4>Limitation et droit applicable</h4><p>Le site est fourni «tel quel», sans garantie. Dans la mesure permise par la loi, Wellthera n'est pas responsable des pertes découlant de l'utilisation du site. Ces conditions sont régies par les lois de la province de l'Ontario, au Canada.</p>"
+            + "<p style='color:var(--ink-60)'>Ceci est un modèle général qui devrait être révisé par un conseiller juridique avant sa publication.</p>" },
+        booking: { title: 'Conditions de réservation', updated: 'Dernière mise à jour : septembre 2026',
+          body: "<p>Ces conditions s'appliquent aux rendez-vous réservés chez Wellthera Integrated Health.</p>"
+            + "<h4>Annulations</h4><p>Nous vous demandons un préavis d'au moins 24 heures pour annuler ou reporter un rendez-vous, afin que la plage horaire puisse être offerte à un autre patient. Les annulations tardives ou les rendez-vous manqués peuvent être facturés.</p>"
+            + "<h4>Arrivée</h4><p>Veuillez arriver quelques minutes à l'avance pour votre première visite afin de remplir le formulaire d'accueil. Un retard peut entraîner une séance écourtée.</p>"
+            + "<h4>Assurance et facturation directe</h4><p>La facturation directe est offerte pour les services et assureurs admissibles lorsque votre régime le permet. La couverture, les plafonds et les remboursements dépendent de votre régime; nous ne pouvons pas confirmer à l'avance tous les détails d'une police.</p>"
+            + "<h4>Services de partenaires indépendants</h4><p>Certains services (comme les injectables cliniques dirigés par une infirmière) sont offerts de façon indépendante et réservés, payés et gérés au moyen du système propre au fournisseur, selon ses propres politiques.</p>"
+            + "<p style='color:var(--ink-60)'>Ceci est un modèle général qui devrait être révisé par un conseiller juridique avant sa publication.</p>" }
+      },
+      pt: {
+        privacy: { title: 'Política de Privacidade', updated: 'Última atualização: setembro de 2026',
+          body: "<p>A Wellthera Integrated Health (“Wellthera”, “nós”) respeita a sua privacidade. Esta política explica quais informações coletamos por meio deste site e como as utilizamos. As informações pessoais de saúde coletadas durante o atendimento são tratadas separadamente, de acordo com a Lei de Proteção de Informações de Saúde Pessoal de Ontário (PHIPA).</p>"
+            + "<h4>Informações que coletamos</h4><p>Quando você usa este site, podemos coletar informações que você fornece (como nome, e-mail ou mensagem, caso entre em contato) e informações técnicas coletadas automaticamente (como dispositivo, navegador e dados gerais de uso, por meio de cookies e ferramentas de análise).</p>"
+            + "<h4>Como as utilizamos</h4><p>Usamos essas informações para responder a solicitações, operar e melhorar o site e entender como ele é utilizado. Agendamento online, pagamentos e faturamento direto de seguros são gerenciados por fornecedores terceiros (por exemplo, ClinicSense), sob os seus próprios termos de privacidade.</p>"
+            + "<h4>Cookies</h4><p>Usamos cookies essenciais para operar o site e, com o seu consentimento, cookies de análise para medir o uso. Você pode recusar cookies não essenciais pelo aviso na tela ou nas configurações do seu navegador.</p>"
+            + "<h4>Suas escolhas</h4><p>Você pode solicitar acesso, correção ou exclusão das informações pessoais que mantemos sobre você, sujeito a requisitos legais e regulatórios. Para fazer uma solicitação, entre em contato conosco na clínica.</p>"
+            + "<p style='color:var(--ink-60)'>Este é um modelo geral e deve ser revisado por um profissional jurídico antes da publicação.</p>" },
+        terms: { title: 'Termos de Uso', updated: 'Última atualização: setembro de 2026',
+          body: "<p>Ao usar este site, você concorda com estes termos. O conteúdo deste site é fornecido como informação geral sobre a Wellthera Integrated Health e seus serviços.</p>"
+            + "<h4>Não é aconselhamento médico</h4><p>As informações deste site não substituem uma avaliação, diagnóstico ou tratamento profissional. Sempre consulte um profissional de saúde regulamentado e qualificado para as suas necessidades individuais. A disponibilidade dos serviços e o escopo de atuação dos profissionais podem mudar.</p>"
+            + "<h4>Agendamento e terceiros</h4><p>Os agendamentos são feitos por meio de sistemas de terceiros, e certos serviços (incluindo serviços de parceiros independentes) são agendados e gerenciados separadamente. Esses serviços estão sujeitos aos termos próprios do respectivo fornecedor.</p>"
+            + "<h4>Propriedade intelectual</h4><p>O conteúdo, a marca e as imagens deste site pertencem à Wellthera Integrated Health e não podem ser reproduzidos sem autorização.</p>"
+            + "<h4>Limitação e lei aplicável</h4><p>O site é fornecido “no estado em que se encontra”, sem garantias. Na medida permitida por lei, a Wellthera não se responsabiliza por perdas decorrentes do uso do site. Estes termos são regidos pelas leis da Província de Ontário, Canadá.</p>"
+            + "<p style='color:var(--ink-60)'>Este é um modelo geral e deve ser revisado por um profissional jurídico antes da publicação.</p>" },
+        booking: { title: 'Termos de Agendamento', updated: 'Última atualização: setembro de 2026',
+          body: "<p>Estes termos se aplicam aos agendamentos feitos com a Wellthera Integrated Health.</p>"
+            + "<h4>Cancelamentos</h4><p>Pedimos, gentilmente, um aviso de no mínimo 24 horas para cancelar ou remarcar um agendamento, para que o horário possa ser oferecido a outro paciente. Cancelamentos tardios ou faltas podem estar sujeitos a uma taxa.</p>"
+            + "<h4>Chegada</h4><p>Chegue alguns minutos antes na sua primeira visita para preencher o cadastro. Atrasos podem resultar em uma sessão mais curta.</p>"
+            + "<h4>Seguro e faturamento direto</h4><p>O faturamento direto é oferecido para serviços e seguradoras elegíveis, quando o seu plano permite. Cobertura, limites e reembolso dependem do seu plano individual; não podemos confirmar antecipadamente todos os detalhes de cada apólice.</p>"
+            + "<h4>Serviços de parceiros independentes</h4><p>Certos serviços (como injetáveis clínicos conduzidos por enfermeira) são prestados de forma independente e agendados, pagos e gerenciados pelo sistema próprio do fornecedor, sob as suas próprias políticas.</p>"
+            + "<p style='color:var(--ink-60)'>Este é um modelo geral e deve ser revisado por um profissional jurídico antes da publicação.</p>" }
+      }
+    };
+
+    // Engine: applies a language by swapping [data-i18n]/[data-i18n-html] nodes.
+    // English originals are captured lazily, so only FR + PT copy is authored above.
+    window.LANG = 'en';
+    window.t = function (key, fallback) {
+      var lang = window.LANG;
+      if (lang !== 'en' && window.I18N[lang] && window.I18N[lang][key] != null) return window.I18N[lang][key];
+      return fallback != null ? fallback : key;
+    };
+    (function () {
+      var orig = new WeakMap();
+      function apply(lang) {
+        window.LANG = lang;
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-i18n],[data-i18n-html]').forEach(function (el) {
+          var isHtml = el.hasAttribute('data-i18n-html');
+          var key = isHtml ? el.getAttribute('data-i18n-html') : el.getAttribute('data-i18n');
+          if (!orig.has(el)) orig.set(el, isHtml ? el.innerHTML : el.textContent);
+          var val;
+          if (lang === 'en') val = orig.get(el);
+          else { var d = window.I18N[lang] ? window.I18N[lang][key] : null; val = (d == null ? orig.get(el) : d); }
+          if (isHtml) el.innerHTML = val; else el.textContent = val;
+        });
+        document.querySelectorAll('.lang [data-lang]').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
+        });
+        try { localStorage.setItem('wellthera_lang', lang); } catch (e) {}
+      }
+      window.applyLang = apply;
+      document.querySelectorAll('.lang [data-lang]').forEach(function (b) {
+        b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); });
+      });
+      var saved = 'en';
+      try { saved = localStorage.getItem('wellthera_lang') || 'en'; } catch (e) {}
+      if (!/^(en|fr|pt)$/.test(saved)) saved = 'en';
+      apply(saved);
     })();
   </script>
 </body>
