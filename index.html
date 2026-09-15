@@ -70,6 +70,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
+    /* Offset in-page anchors for the fixed ~96px header so section tops aren't hidden under it */
+    #about, #svcScroll, #team, #testimonials, #faq, #visit { scroll-margin-top: 108px; }
 
     body {
       background: var(--cream);
@@ -993,6 +995,13 @@
       .team__founders .pcard { width: min(74%, 320px); }
       .team__track .pcard { width: min(74%, 300px); }
       .cta-band__row { flex-direction: column; align-items: flex-start; }
+      /* Taller band + compact, bottom-aligned copy so the centered lotus in the
+         video clears the text instead of sitting behind the sub on mobile */
+      .cta-band { min-height: 90vh; }
+      .cta-band__row { gap: 24px; }
+      .cta-band__text { gap: 14px; }
+      .cta-band__title { font-size: 26px; }
+      .cta-band__sub { font-size: 15px; line-height: 1.45; }
       .cta-pill img { width: 84px; height: 84px; }
       .cta-pill span { font-size: 20px; }
       .footer__leaf { display: none; }
@@ -1142,8 +1151,8 @@
 
       <nav class="nav" aria-label="Primary">
         <div class="nav__menu">
-          <a href="#services" data-i18n="nav.services">Services</a>
-          <a href="#about" class="is-muted" data-i18n="nav.about">About</a>
+          <a href="#svcScroll" data-i18n="nav.services">Services</a>
+          <a href="#about" data-i18n="nav.about">About</a>
           <a href="#team" data-i18n="nav.team">Team</a>
           <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
           <a href="#faq" data-i18n="nav.faq">FAQs</a>
@@ -1160,7 +1169,7 @@
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span></button>
     </div>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#svcScroll" data-i18n="nav.services">Services</a>
       <a href="#about" data-i18n="nav.about">About</a>
       <a href="#team" data-i18n="nav.team">Team</a>
       <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
@@ -1284,7 +1293,7 @@
       <div class="testimonials__header">
         <div class="rating">
           <span class="eyebrow-pill" data-i18n="test.eyebrow">Testimonials</span>
-          <span class="tag" data-i18n-html="test.tag">4.6 out of 5&nbsp;&nbsp;<span class="star">★★★★★</span>&nbsp;&nbsp;Google</span>
+          <span class="tag" data-i18n-html="test.tag">5 out of 5&nbsp;&nbsp;<span class="star">★★★★★</span>&nbsp;&nbsp;Google</span>
         </div>
         <h2 class="display testimonials__title" data-i18n-html="test.title">See what our loved customers are <em>saying</em></h2>
       </div>
@@ -1406,7 +1415,7 @@
         <nav class="footer__links" aria-label="Footer">
           <div>
             <a href="#about" data-i18n="nav.about">About</a>
-            <a href="#services" data-i18n="nav.services">Services</a>
+            <a href="#svcScroll" data-i18n="nav.services">Services</a>
             <a href="#team" data-i18n="nav.team">Team</a>
           </div>
           <div>
@@ -2183,7 +2192,7 @@
         'comp.label': 'Des soins réglementés que vous pouvez vérifier',
         'comp.note': "Nos praticiens sont inscrits auprès des ordres réglementaires de l'Ontario, notamment le CMTO, le CTCMPAO et le CRPO. L'inscription de chaque praticien peut être vérifiée sur le registre public de l'ordre concerné.",
         'test.eyebrow': 'Témoignages',
-        'test.tag': "4,6 sur 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
+        'test.tag': "5 sur 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
         'test.title': "Découvrez ce que nos précieux clients <em>disent</em>",
         'test.more': "Lire plus d'avis sur Google →",
         'faq.title': "Des réponses claires <em>avant</em> de réserver.",
@@ -2299,7 +2308,7 @@
         'comp.label': 'Cuidado regulamentado que você pode verificar',
         'comp.note': "Nossos profissionais são registrados nos órgãos reguladores de Ontário, incluindo CMTO, CTCMPAO e CRPO. O registro de cada profissional pode ser verificado no registro público do respectivo órgão.",
         'test.eyebrow': 'Depoimentos',
-        'test.tag': "4,6 de 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
+        'test.tag': "5 de 5&nbsp;&nbsp;<span class='star'>★★★★★</span>&nbsp;&nbsp;Google",
         'test.title': "Veja o que nossos queridos clientes estão <em>dizendo</em>",
         'test.more': "Ler mais avaliações no Google →",
         'faq.title': "Respostas claras <em>antes</em> de agendar.",
