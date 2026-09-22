@@ -969,6 +969,10 @@
       .mobile-menu.is-open { display: flex; }
       .mobile-menu a { padding: 12px 0; font-weight: 500; font-size: 18px; border-bottom: 1px solid var(--hairline); }
       .mobile-menu .btn { margin-top: 12px; align-self: flex-start; }
+      /* Language toggle inside the mobile menu (light panel → dark styling, bigger tap targets) */
+      .lang--mobile { margin: 16px 0 2px; align-self: flex-start; }
+      .lang--mobile button { width: 44px; height: 34px; font-size: 13px; border-color: rgba(16,14,10,0.25); color: var(--ink); }
+      .lang--mobile button[aria-pressed="true"] { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 
       .hero { padding: 96px 20px 32px; min-height: 88svh; }
       .hero__descrow { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -1175,6 +1179,11 @@
       <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
       <a href="#faq" data-i18n="nav.faq">FAQs</a>
       <a href="#visit" data-i18n="nav.visit">Visit Us</a>
+      <div class="lang lang--mobile" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
       <a class="btn btn--olive" href="https://welltheraintegratedhealth.clinicsense.com/book/" target="_blank" rel="noopener" data-i18n="ui.book">Book Online</a>
     </div>
   </header>
