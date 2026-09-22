@@ -998,14 +998,16 @@
       .team__carousel { width: 100%; }
       .team__founders .pcard { width: min(74%, 320px); }
       .team__track .pcard { width: min(74%, 300px); }
-      .cta-band__row { flex-direction: column; align-items: flex-start; }
-      /* Taller band + compact, bottom-aligned copy so the centered lotus in the
-         video clears the text instead of sitting behind the sub on mobile */
-      .cta-band { min-height: 90vh; }
-      .cta-band__row { gap: 24px; }
+      /* Split the CTA on mobile: the video (ending on the centered lotus) sits in
+         a fixed-aspect block on top, the copy sits on cream below it. This is
+         width-based and deterministic, so the logo/copy relationship is identical
+         on iOS and Android instead of depending on how each browser computes vh. */
+      .cta-band { flex-direction: column; align-items: stretch; min-height: 0; padding: 0; background: var(--cream); }
+      .cta-band__bg { position: relative; inset: auto; width: 100%; aspect-ratio: 4 / 3; }
+      .cta-band__row { flex-direction: column; align-items: flex-start; gap: 22px; padding: 26px 24px 32px; }
       .cta-band__text { gap: 14px; }
       .cta-band__title { font-size: 26px; }
-      .cta-band__sub { font-size: 15px; line-height: 1.45; }
+      .cta-band__sub { font-size: 15px; line-height: 1.45; max-width: none; }
       .cta-pill img { width: 84px; height: 84px; }
       .cta-pill span { font-size: 20px; }
       .footer__leaf { display: none; }
