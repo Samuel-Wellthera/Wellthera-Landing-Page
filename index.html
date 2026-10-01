@@ -843,6 +843,8 @@
     .visit-map__addr strong { font-weight: 500; }
     .visit-map__hours { font-size: 15px; line-height: 1.7; color: var(--ink-60); }
     .visit-map__info .btn { align-self: flex-start; }
+    .tel-link { color: inherit; text-decoration: none; transition: color .25s ease; }
+    .tel-link:hover { color: var(--olive); }
     .visit-map__frame {
       position: relative; border-radius: var(--r-sm); overflow: hidden; aspect-ratio: 16 / 11;
       box-shadow: 0 24px 56px rgba(51,46,30,.16), 0 6px 16px rgba(51,46,30,.08);
@@ -1393,6 +1395,7 @@
         <div class="visit-map__addr">
           <p><strong>Wellthera Integrated Health</strong></p>
           <p>464 Big Bay Point Rd.<br>Barrie, ON L4N 3Z4</p>
+          <p><a class="tel-link" href="tel:+17057981171">705 798-1171</a></p>
         </div>
         <p class="visit-map__hours" data-i18n-html="visit.hours">
           Monday–Thursday: 9:00 a.m.–8:00 p.m.<br>
@@ -1417,6 +1420,7 @@
         <div class="footer__addr">
           <img src="assets/footer-logo.svg" alt="Wellthera Integrated Health" />
           <p class="addr">464 Big Bay Point Rd. Barrie, ON L4N 3Z4</p>
+          <p class="footer__tel"><a class="tel-link" href="tel:+17057981171">705 798-1171</a></p>
           <p class="footer__hours" data-i18n-html="footer.hours">
             <b>Monday–Thursday:</b><br>9:00 a.m.–8:00 p.m.<br>
             <b>Friday:</b><br>9:00 a.m.–5:00 p.m.<br>
